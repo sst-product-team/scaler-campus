@@ -5,6 +5,12 @@ const path = require('path')
 const ejs = require('ejs')
 const pino = require('pino')
 const pinoHttp = require('pino-http')
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+// get config vars
+dotenv.config();
+
+
 
 module.exports = function main (options, cb) {
   // Set default options
@@ -23,7 +29,7 @@ module.exports = function main (options, cb) {
   // Setup error handling
   function unhandledError (err) {
     // Log the errors
-    logger.error(err)
+    // logger.error(err)
 
     // Only clean up once
     if (serverClosing) {
@@ -51,8 +57,18 @@ module.exports = function main (options, cb) {
   
   // Common middleware
   // app.use(/* ... */)
-  app.use(pinoHttp({ logger }))
-      
+  // app.use(pinoHttp({ logger }))
+  app.use((req, res, next) => {
+    const reqToken = req.headers['authorization'];
+    if(jwt.verify(
+      reqToken,
+      process.env.JWT_SIGNING_KEY
+    ).validity) {
+      next();
+    } else {
+      res.sendStatus(403);
+    }
+  });      
   // Register routes
   // @NOTE: require here because this ensures that even syntax errors
   // or other startup related errors are caught logged and debuggable.
@@ -67,7 +83,7 @@ module.exports = function main (options, cb) {
   })
   app.use(function fiveHundredHandler (err, req, res, next) {
     if (err.status >= 500) {
-      logger.error(err)
+      // logger.error(err)
     }
     res.locals.name = 'Scaler Campus QR Server'
     res.locals.error = err
