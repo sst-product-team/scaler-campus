@@ -19,7 +19,7 @@ module.exports = function (app, opts) {
       },
       process.env.JWT_SIGNING_KEY,
       {
-        expiresIn: "200s"
+        expiresIn: "20s"
       }
     )
 
