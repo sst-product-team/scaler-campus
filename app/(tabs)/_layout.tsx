@@ -5,9 +5,8 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import {
   FontAwesome,
   FontAwesome6,
-  AntDesign,
-  Entypo,
   Ionicons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 
 export default function TabLayout() {
@@ -18,15 +17,20 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
-        tabBarStyle: { paddingBottom: 10, paddingTop: 10, height: 70 },
+        tabBarStyle: {
+          paddingBottom: 10,
+          paddingTop: 10,
+          height: 70,
+          borderRadius: 20,
+        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Dashboard",
           tabBarIcon: ({ color, focused }) => (
-            <Entypo name="home" size={24} color={focused ? "white" : "grey"} />
+            <MaterialIcons name="dashboard" size={24} color={focused ? "white" : "grey"} />
           ),
           tabBarIconStyle: { marginBottom: 0 },
         }}
@@ -47,11 +51,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="appStore"
         options={{
-          title: "Store",
+          title: "Hostel",
           tabBarIcon: ({ color, focused }) => (
-            <AntDesign
-              name="appstore1"
-              size={24}
+            <FontAwesome6
+              name="house"
+              size={22}
               color={focused ? "white" : "grey"}
             />
           ),
