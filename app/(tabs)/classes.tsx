@@ -1,19 +1,21 @@
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import React from "react";
-import WelcomeMessage from "@/components/home/WelcomeMessage";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import InfoHeader from "@/components/classes/InfoHeader";
 
-const Explore = () => {
+const Classes = () => {
   return (
     <GestureHandlerRootView>
       <SafeAreaView className="flex-1 ">
         <ScrollView className="w-full px-[6%] mt-[16%]">
           <View>
-            <WelcomeMessage />
+            <Text className="text-4xl tracking-widest font-medium text-white">Classes</Text>
             <InfoHeader />
             <View className="mt-16">
               <View className="rounded-xl bg-[#333333] h-[70] "></View>
+              <View className="rounded-xl mt-8 bg-[#333333] h-[70] "></View>
+              <View className="rounded-xl mt-8 bg-[#333333] h-[70] "></View>
+              <View className="rounded-xl mt-8 bg-[#333333] h-[70] "></View>
               <View className="rounded-xl mt-8 bg-[#333333] h-[70] "></View>
               <View className="rounded-xl mt-8 bg-[#333333] h-[70] "></View>
             </View>
@@ -23,5 +25,4 @@ const Explore = () => {
     </GestureHandlerRootView>
   );
 };
-
-export default Explore;
+export default Classes;

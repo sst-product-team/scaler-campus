@@ -19,12 +19,13 @@ function getMessage(): string {
 }
 
 const WelcomeMessage = () => {
-  
-
   return (
     <View>
-      <Text className="text-white text-xl">Good {getMessage()}</Text>
-      <Text className="text-white text-4xl mt-3 font-medium tracking-widest">Rudra</Text>
+      <Text className="text-xl text-white">Good {getMessage()}</Text>
+      <Text className="text-3xl font-semibold tracking-widest text-white py-1">
+        Rudra Chauhan
+      </Text>
+      <Text className="text-xl text-white">10137</Text>
     </View>
   );
 };
