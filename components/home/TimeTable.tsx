@@ -5,7 +5,7 @@ import ClassList from "./ClassList";
 
 const TimeTable = () => {
   return (
-    <View>
+    <View className="">
       <DateList></DateList>
       <ClassList></ClassList>
     </View>

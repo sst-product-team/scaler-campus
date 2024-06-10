@@ -8,12 +8,16 @@ import Dates from "./Dates";
 
 const DateList = () => {
   return (
-    <View className="flex-row">
-      <Dates otherstyles=""></Dates>
-      <Dates otherstyles="bg-[#333333]"></Dates>
-      <Dates otherstyles="bg-[#333333]"></Dates>
-      <Dates otherstyles="bg-[#333333]"></Dates>
-    </View>
+    <ScrollView horizontal={true}>
+      <View className="flex-row pl-4">
+        <Dates otherstyles=""></Dates>
+        <Dates otherstyles="bg-[#333333]"></Dates>
+        <Dates otherstyles="bg-[#333333]"></Dates>
+        <Dates otherstyles="bg-[#333333]"></Dates>
+        <Dates otherstyles="bg-[#333333]"></Dates>
+        <Dates otherstyles="bg-[#333333]"></Dates>
+      </View>
+    </ScrollView>
   );
 };
 
