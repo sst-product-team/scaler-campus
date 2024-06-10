@@ -9,13 +9,11 @@ module.exports = function (app, opts) {
     }));
   })
 
-  app.get('/client-token', (req, res) => {
+  app.get('/attendance-token', (req, res) => {
 
     const clientToken = jwt.sign(
       {
         "purpose": "attendance",
-        "validity": true,
-        "timestamp": `${Date.now()}`
       },
       process.env.JWT_SIGNING_KEY,
       {
