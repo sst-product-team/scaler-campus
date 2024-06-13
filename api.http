@@ -1,0 +1,27 @@
+###
+GET http://localhost:8080/user
+
+
+###
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+    "Name": "Rudra Kumar Chauhan",
+    "Email": "rudrakumarofficial@gmail.com",
+    "Password": "123456",
+    "PhoneNumber": "0987654321",
+    "Role": "admin",
+    "LoginAllowed": true,
+    "UserDevices": 0,
+    "LastLogin": ""
+}
+
+###
+POST http://localhost:8080/signin
+Content-Type: application/json
+
+{
+    "email": "rudrakumarofficial@gmail.com",
+    "password": "12345"
+}
