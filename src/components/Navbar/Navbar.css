@@ -1,0 +1,50 @@
+.navContainer {
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark-color);
+}
+
+.campusUser {
+    color: var(--light-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+}
+
+
+.sectionHeader {
+    color: var(--secondary-color);
+    padding: 1rem;
+    padding-bottom: 20px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+.Header {
+    color: var(--light-color);
+    padding-left: 20px;
+    margin-bottom: 30px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    gap: 0.9rem;
+    cursor: pointer;
+}
+
+.studentHeader {
+    color: var(--light-color);
+    padding: 1rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logout {
+    color: var(--danger-color);
+}
