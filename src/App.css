@@ -5,6 +5,10 @@
   font-family: Lexend;
 }
 
+*::-webkit-scrollbar {
+  width: 0rem;
+}
+
 :root {
   --primary-color: #007bff;
   --secondary-color: #939597;

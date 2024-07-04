@@ -2,6 +2,11 @@ import { useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Students from './app/Students';
+import Lectures from './app/Lectures';
+import Courses from './app/Courses/Courses';
+import Batches from './app/Batches/Batches';
+import QueryConsole from './app/QueryConsole/QueryConsole';
+import Settings from './app/Settings/Settings';
 
 function App() {
 
@@ -10,16 +15,16 @@ function App() {
   return (
     <div className="App">
       <div className="nav">
-        <Navbar />
+        <Navbar state={experience} stateChange={setExperience}  />
       </div>
       <div className="experience">
         {experience === "dash" && <h1>Dashboard</h1>}
-        {experience === "lectures" && <h1>Lectures</h1>}
-        {experience === "courses" && <h1>Courses</h1>}
+        {experience === "lectures" && <Lectures />}
+        {experience === "courses" && <Courses />}
         {experience === "students" && <Students />}
-        {experience === "batches" && <h1>Batches</h1>}
-        {experience === "query" && <h1>Query</h1>}
-        {experience === "settings" && <h1>Settings</h1>}
+        {experience === "batches" && <Batches />}
+        {experience === "query" && <QueryConsole />}
+        {experience === "settings" && <Settings />}
       </div>
     </div>
   );
