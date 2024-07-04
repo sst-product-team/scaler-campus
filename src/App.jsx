@@ -5,7 +5,7 @@ import Students from './app/Students';
 import Lectures from './app/Lectures';
 import Courses from './app/Courses/Courses';
 import Batches from './app/Batches/Batches';
-import QueryConsole from './app/QueryConsole/QueryConsole';
+import StudentForms from './app/StudentForms/StudentForms';
 import Settings from './app/Settings/Settings';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         {experience === "courses" && <Courses />}
         {experience === "students" && <Students />}
         {experience === "batches" && <Batches />}
-        {experience === "query" && <QueryConsole />}
+        {experience === "forms" && <StudentForms />}
         {experience === "settings" && <Settings />}
       </div>
     </div>

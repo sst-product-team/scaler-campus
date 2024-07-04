@@ -1,14 +1,14 @@
-export default function QueryConsole() {
+export default function StudentForms() {
     
     return (
         <div className="Students">
             <div className="topNavActions">
                 <div className="info">
-                    SQL Query Console
+                    Student Forms
                 </div>
                 <div className="actions">
-                    <button className="butn outlined">Import Query</button>
-                    <button className="butn">Save Query</button>
+                    {/* <button className="butn outlined">Import Form</button> */}
+                    <button className="butn">Create Form</button>
                 </div>
             </div>
         </div>
