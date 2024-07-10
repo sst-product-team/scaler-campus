@@ -12,6 +12,9 @@ import FlashMessage from "react-native-flash-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SheetProvider } from "react-native-actions-sheet";
 import "@/components/sheets";
+import LottieView from "lottie-react-native";
+import Confetti from "@/assets/animations/confetti.json";
+import { View } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -87,6 +90,19 @@ export default function TabLayout() {
             />
           </Tabs>
           <FlashMessage position="bottom" />
+          <View className="items-center">
+            {/* <LottieView
+              source={Confetti}
+              autoPlay
+              style={{
+                position: "absolute",
+                bottom: 0,
+                zIndex: 1,
+                width: 350,
+                height: 350,
+              }}
+            ></LottieView> */}
+          </View>
         </>
       </SheetProvider>
     </GestureHandlerRootView>

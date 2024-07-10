@@ -1,14 +1,13 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
-import UserContext from "@/hooks/UserContext";
+import React from "react";
 import Ripple from "@/assets/images/rippleEffect.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WelcomeMessage from "@/components/home/WelcomeMessage";
 import TimeTable from "@/components/home/TimeTable";
 import { Ionicons } from "@expo/vector-icons";
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 import { ScrollView } from "react-native-gesture-handler";
-import { SheetManager } from "react-native-actions-sheet";
+
 
 const Dashboard = () => {
   return (
@@ -36,10 +35,21 @@ const Dashboard = () => {
               <Ionicons name="person" size={34} color="black" />
             </TouchableOpacity>
           </View>
-          <View className="w-full items-start ml-[60] mt-7">
+          <View className="w-full items-start ml-[60]">
             <WelcomeMessage></WelcomeMessage>
           </View>
-          <View className="w-[86%] mt-8 bg-[#333333] h-24 rounded-3xl"></View>
+          <View className="w-[86%] mt-8 bg-[#333333] h-20 rounded-3xl flex justify-center">
+            <View className="flex-row justify-between px-6">
+              <Text className="text-white text-xl font-medium tracking-widest">
+                {" "}
+                Seat no
+              </Text>
+              <Text className="text-white text-xl font-medium tracking-widest">
+                {" "}
+                G-4-1
+              </Text>
+            </View>
+          </View>
           <View className="w-[100%]  mt-8">
             <TimeTable></TimeTable>
           </View>

@@ -1,5 +1,8 @@
 import { Text, View } from "react-native";
 import React, { Component } from "react";
+import CustomButton from "@/components/CustomButton";
+import ClassTag from "@/components/home/AttendancePopUp/ClassTag";
+import CourseTag from "@/components/home/AttendancePopUp/CourseTag";
 
 const Profile = () => {
   return (

@@ -5,6 +5,7 @@ import ActionSheet, {
   SheetProps,
 } from "react-native-actions-sheet";
 import CustomButton from "./CustomButton";
+import AttendancePopUp from "./home/AttendancePopUp/AttendancePopUp";
 
 type Props = {
   sheetId: string;
@@ -25,57 +26,11 @@ function actionSheet({ sheetId, payload }: Props) {
       indicatorStyle={{
         backgroundColor: "#605E5E",
         width: 100,
+        marginTop: 10,
       }}
       gestureEnabled={true}
     >
-      <View className="items-center">
-        <View
-          style={{
-            padding: 20,
-            height: 200,
-            flexDirection: "row",
-            width: "100%",
-          }}
-        >
-          <View
-            style={{
-              width: 50,
-              height: 50,
-              backgroundColor: "#605E5E",
-              borderRadius: 100,
-              marginRight: 10,
-            }}
-          />
-
-          <View style={{ flexGrow: 1 }}>
-            <View
-              style={{
-                width: "100%",
-                height: 20,
-                backgroundColor: "#605E5E",
-                borderRadius: 10,
-                marginBottom: 10,
-              }}
-            />
-            <View
-              style={{
-                width: "80%",
-                height: 20,
-                backgroundColor: "#605E5E",
-                borderRadius: 10,
-              }}
-            />
-          </View>
-        </View>
-        <View className="p-[20]">
-          <CustomButton
-            title="Mark Attendance"
-            handlePress={() => {}}
-            containerStyles={""}
-            textStyles={"px-4 text-lg"}
-          ></CustomButton>
-        </View>
-      </View>
+      <AttendancePopUp></AttendancePopUp>
     </ActionSheet>
   );
 }

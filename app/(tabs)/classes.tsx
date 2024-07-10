@@ -2,14 +2,18 @@ import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import InfoHeader from "@/components/classes/InfoHeader";
+import ConfirmPage from "@/components/confirmPage";
 
 const Classes = () => {
   return (
     <GestureHandlerRootView>
       <SafeAreaView className="flex-1 ">
         <ScrollView className="w-full px-[6%] mt-[16%]">
+          <ConfirmPage></ConfirmPage>
           <View>
-            <Text className="text-4xl tracking-widest font-medium text-white">Classes</Text>
+            <Text className="text-4xl tracking-widest font-medium text-white">
+              Classes
+            </Text>
             <InfoHeader />
             <View className="mt-16">
               <View className="rounded-xl bg-[#333333] h-[70] "></View>

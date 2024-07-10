@@ -13,7 +13,7 @@ const Welcome = () => {
     <SafeAreaView className="h-full">
       <GestureHandlerRootView>
         <ScrollView automaticallyAdjustKeyboardInsets={true}>
-          <View className="flex-1 mt-24 items-center">
+          <View className="flex-1 mt-14 justify-between items-center">
             <Text className="text-3xl tracking-widest font-medium text-white">
               SCLAER CAMPUS
             </Text>
@@ -26,7 +26,11 @@ const Welcome = () => {
               </Text>
               <FromField placeholder="Email Address"></FromField>
               <FromField placeholder="Password"></FromField>
-              <CustomButton title="Sign in" handlePress={() => router.push("/dashboard")}></CustomButton>
+              <CustomButton
+                title="Sign in"
+                handlePress={() => router.push("/dashboard")}
+                containerStyles="w-[70%]"
+              ></CustomButton>
               <Text className="mt-7 text-white font-bold">
                 powered by{" "}
                 <Text className="text-[#7D93F3]">The Product Team</Text>

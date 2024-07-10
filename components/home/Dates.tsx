@@ -3,12 +3,14 @@ import React from 'react'
 
 type Props = {
     otherstyles : string;
+    title : string;
+    day : string;
 }
-const Dates = ({otherstyles} : Props) => {
+const Dates = ({otherstyles, title,day} : Props) => {
   return (
     <View className={`h-[85] w-16 bg-[#5F60C3] rounded-[30px] flex items-center justify-center mr-8 ${otherstyles}`}>
-      <Text className='text-2xl text-white font-bold'>12</Text>
-      <Text className='text-white'>wed</Text>
+      <Text className='text-2xl text-white font-bold'>{title}</Text>
+      <Text className='text-white'>{day}</Text>
     </View>
   )
 }
