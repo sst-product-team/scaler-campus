@@ -1,0 +1,27 @@
+###
+GET http://localhost:8080/user
+
+
+###
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+    "Name": "",
+    "Email": "",
+    "Password": "",
+    "PhoneNumber": "",
+    "Role": "",
+    "LoginAllowed": true,
+    "UserDevices": 0,
+    "LastLogin": ""
+}
+
+###
+POST http://localhost:8080/signin
+Content-Type: application/json
+
+{
+    "email": "",
+    "password": ""
+}

@@ -5,13 +5,14 @@ import (
 	"net/http"
 	"time"
 
+	"campus/auth/src/utils"
+
 	"github.com/gin-gonic/gin"
 )
 
 type CreateUserDTO struct {
 	Name        string      `json:"name"`
 	Email       string      `json:"email"`
-	Password    string      `json:"password"`
 	PhoneNumber string      `json:"phoneNumber"`
 	Role        models.Role `json:"role" gorm:"type:ENUM('admin', 'teacher', 'student')"`
 }
@@ -30,7 +31,7 @@ type UpdateUserDTO struct {
 func FindUsers(c *gin.Context) {
 	var users []models.User
 	models.DB.Find(&users)
-	c.JSON(http.StatusOK, gin.H{"data": users})
+	c.JSON(http.StatusOK, users)
 }
 
 func FindUser(c *gin.Context) {
@@ -51,10 +52,17 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	securePassword, err := utils.GenerateSecurePassword(10)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	user := models.User{
 		Name:        input.Name,
 		Email:       input.Email,
-		Password:    input.Password,
+		Password:    securePassword,
 		PhoneNumber: input.PhoneNumber,
 		Role:        input.Role,
 	}
@@ -62,6 +70,29 @@ func CreateUser(c *gin.Context) {
 	models.DB.Create(&user).Save(&user)
 
 	c.JSON(http.StatusOK, gin.H{"data": user})
+}
+
+func BulkCreateUser(c *gin.Context) {
+	var input []CreateUserDTO
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var users []models.User
+	for _, user := range input {
+		users = append(users, models.User{
+			Name:        user.Name,
+			Email:       user.Email,
+			PhoneNumber: user.PhoneNumber,
+			Role:        user.Role,
+		})
+	}
+
+	models.DB.Create(&users)
+
+	c.JSON(http.StatusOK, gin.H{"data": users})
+
 }
 
 func UpdateUser(c *gin.Context) {
