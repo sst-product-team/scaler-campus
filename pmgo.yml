@@ -1,0 +1,15 @@
+name: scaler-campus
+
+servers:
+  - address: scaler-campus.scaler.com
+    user: root
+
+build:
+  - go build
+
+deploy:
+  - pmgo deploy
+
+services:
+  - name: scaler-campus
+    commands: ./
