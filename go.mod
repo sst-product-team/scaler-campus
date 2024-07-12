@@ -1,6 +1,6 @@
 module campus/auth
 
-go 1.16.0
+go 1.16
 
 require github.com/gin-gonic/gin v1.10.0
 
