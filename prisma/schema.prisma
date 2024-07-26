@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+model User {
+  UserId       Int          @id @default(autoincrement())
+  Name         String
+  Email        String       @unique @db.VarChar(255)
+  Password     String       @db.VarChar(255)
+  PhoneNumber  String       @unique @db.VarChar(15)
+  LoginAllowed Boolean      @default(true)
+  UserDevices  UserDevice[] @relation("UserDeviceUser")
+  CreatedOn    DateTime     @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn    DateTime     @updatedAt @map("updated_on") @db.Timestamp(6)
+  LastLogin    DateTime?    @map("last_login") @db.Timestamp(6)
+}
+
+model UserRoles {
+  UserId    Int      @map("user_id")
+  Role      Role
+  CreatedAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  UpdatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@id([UserId, Role])
+}
+
+model UserDevice {
+  UserDeviceId Int      @id @default(autoincrement())
+  UserId       Int
+  User         User     @relation(fields: [UserId], references: [UserId], name: "UserDeviceUser")
+  DeviceId     Int
+  CreatedOn    DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn    DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}
+
+enum LoginState {
+  LOGGED_IN
+  LOGGED_OUT
+  LOCKED
+  DISABLED
+}
+
+model SignInStates {
+  StateId    Int        @id @default(autoincrement())
+  UserId     Int        @map("user_id")
+  DeviceId   Int        @map("device_id")
+  LoginState LoginState @default(LOGGED_OUT) @map("login_state")
+  CreatedAt  DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
+  UpdatedAt  DateTime   @updatedAt @map("updated_at") @db.Timestamp(6)
+  LastLogin  DateTime?  @map("last_login") @db.Timestamp(6)
+}
