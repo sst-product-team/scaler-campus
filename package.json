@@ -4,7 +4,8 @@
   "description": "App for complete activities at Scaler School of Technology",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon ./src/index.ts",
+    "dev": "nodemon ./src/index.ts",
+    "start": "node ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
