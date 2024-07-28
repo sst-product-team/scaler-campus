@@ -10,23 +10,32 @@ import Settings from "./app/Settings/Settings";
 import { App as AntdApp, ConfigProvider } from "antd";
 import { RefineThemes } from "@refinedev/antd";
 import { Refine } from "@refinedev/core";
-import dataProvider from "@refinedev/simple-rest";
+import simpleRestDataProvider from "@refinedev/simple-rest";
+import axios from "axios";
+
+// Custom data provider to handle API response structure
+const customDataProvider = {
+  getList: async (resource, params) => {
+    const response = await axios.get(`https://campus-auth-backend-node-adxvh.ondigitalocean.app/${resource}`);
+    return {
+      data: response.data,
+      total: response.data.length,
+    };
+  },
+};
 
 function App() {
   const [experience, setExperience] = useState("students");
-  const API_URL = "https://8hbbktpk-8080.inc1.devtunnels.ms";
 
   return (
     <ConfigProvider theme={RefineThemes.Blue}>
       <AntdApp>
         <Refine
-          dataProvider={{
-            default: dataProvider(API_URL),
-          }}
+          dataProvider={customDataProvider}
           resources={[
             {
-              name: "users",
-              route: "/user",
+              name: "api/v0/user",
+              route: "api/v0/user",
             },
           ]}
         >

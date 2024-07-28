@@ -12,22 +12,27 @@ export default function Students() {
   const importProps = useImport({
     mapData: (item) => {
       return {
-        title: item.title,
-        content: item.content,
-        status: item.status,
-        category: {
-          id: item.categoryId,
-        },
-        user: {
-          id: item.userId,
-        },
+        userId: item.userId,
+        name: item.name,
+        email: item.email,
+        phoneNumber: item.phoneNumber,
       };
     },
     batchSize: 10,
   });
   const { triggerExport, isLoading: exportLoading } = useExport();
 
-  const { tableProps } = useTable({ resource: "user" });
+  const { tableProps } = useTable({
+    resource: "api/v0/user",
+    meta: {
+      data: "data",
+    },
+    queryOptions: {
+      onSuccess: (data) => {
+        data.data = data.data.data; // Ensure the table gets the nested data array
+      },
+    },
+  });
 
   return (
     <div className="Students">
@@ -40,7 +45,7 @@ export default function Students() {
         </div>
       </div>
       <div className="studentDisplay">
-        <Table {...tableProps} rowKey="id">
+        <Table {...tableProps} rowKey="userId">
           <Table.Column dataIndex="userId" title="ID" />
           <Table.Column dataIndex="name" title="Name" />
           <Table.Column dataIndex="email" title="Email" />
