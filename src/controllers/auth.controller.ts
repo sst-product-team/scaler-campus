@@ -71,6 +71,21 @@ class AuthController {
             return res.status(400).json({ message: "User not permitted to access resource" });
         }
 
+        // check if user allowed to login
+        if(!user.LoginAllowed) {
+            return res.status(400).json({ message: "User disabled, deleted or not allowed to login" });
+        }
+
+        // update last login
+        await this.prismaClient.user.update({
+            where: {
+                UserId: user.UserId
+            },
+            data: {
+                LastLogin: new Date()
+            }
+        });
+
         // generate token
         const userTokenData = {
             UserId: user.UserId
