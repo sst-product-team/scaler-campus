@@ -183,12 +183,76 @@ class UserController {
         });
     }
 
-    updateUser(req: Request, res: Response) {
-        res.json({ message: 'functionality not yet available' });
+    async updateUser(req: Request, res: Response) {
+
+        // get user id
+        const { userId } = req.params;
+
+        // get user details
+        let { name, email, phone, loginAllowed} = req.body;
+
+        // validate user
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required' });
+        }
+
+        // check if user exists
+        const user = await this.prismaClient.user.findUnique({
+            where: {
+                UserId: parseInt(userId)
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        if(!name) {
+            name = user.Name;
+        }
+        if (!email) {
+            email = user.Email;
+        }
+        if (!phone) {
+            phone = user.PhoneNumber;
+        }
+        if (!loginAllowed) {
+            loginAllowed = user.LoginAllowed;
+        }
+
+        // update user
+        await this.prismaClient.user.update({
+            where: {
+                UserId: parseInt(userId)
+            },
+            data: {
+                Name: name,
+                Email: email,
+                PhoneNumber: phone,
+                LoginAllowed: loginAllowed
+            }
+        });
     }
 
-    deleteUser(req: Request, res: Response) {
-        res.json({ message: 'functionality not yet available' });
+    async deleteUser(req: Request, res: Response) {
+        
+        //get user id
+        const { userId } = req.params;
+
+        // validate user
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required' });
+        }
+
+        // disable user to login
+        await this.prismaClient.user.update({
+            where: {
+                UserId: parseInt(userId)
+            },
+            data: {
+                LoginAllowed: false
+            }
+        });
     }
 }
 
