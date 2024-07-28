@@ -2,6 +2,7 @@ import express, {Application} from 'express';
 import { PrismaClient } from '@prisma/client';
 import UserRoute from '../routes/user.route';
 import AuthRoute from '../routes/auth.route';
+import BatchRoute from '../routes/batch.route';
 import cors from 'cors';
 
 class App {
@@ -23,6 +24,7 @@ class App {
             res.send("Hello World");
         });
         this.app.use("/api/v0/user", new UserRoute().router);
+        this.app.use("/api/v0/batch", new BatchRoute().router);
         this.app.use("/api/v0/auth", new AuthRoute().router);
 
     }
