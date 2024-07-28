@@ -16,12 +16,16 @@ class App {
         await this.prisma.$connect();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
+
+        this.app.get("/api/v0", (req, res) => {
+            res.send("Hello World");
+        });
         this.app.use("/api/v0/user", new UserRoute().router);
         this.app.use("/api/v0/auth", new AuthRoute().router);
 
     }
 
-    start(PORT: Number): void {
+    start(PORT: number): void {
         this.app.listen(PORT, () => {
             console.log('Server on port', PORT);
         });
