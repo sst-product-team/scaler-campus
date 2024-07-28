@@ -66,3 +66,20 @@ model SignInStates {
   UpdatedAt  DateTime   @updatedAt @map("updated_at") @db.Timestamp(6)
   LastLogin  DateTime?  @map("last_login") @db.Timestamp(6)
 }
+
+model Batch {
+  BatchId     Int      @id @default(autoincrement()) @map("batch_id")
+  Name        String   @map("name")
+  Description String   @map("description")
+  CreatedOn   DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn   DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}
+
+model BatchStudents {
+  BatchId   Int      @map("batch_id")
+  UserId    Int      @map("user_id")
+  CreatedAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  UpdatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@id([BatchId, UserId])
+}
