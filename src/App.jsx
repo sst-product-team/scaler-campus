@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Students from "./app/Students";
+import Students from "./app/Students/Students";
 import Lectures from "./app/Lectures";
 import Courses from "./app/Courses/Courses";
 import Batches from "./app/Batches/Batches";
@@ -10,16 +10,16 @@ import Settings from "./app/Settings/Settings";
 import { App as AntdApp, ConfigProvider } from "antd";
 import { RefineThemes } from "@refinedev/antd";
 import { Refine } from "@refinedev/core";
-import simpleRestDataProvider from "@refinedev/simple-rest";
 import axios from "axios";
 
 // Custom data provider to handle API response structure
 const customDataProvider = {
   getList: async (resource, params) => {
-    const response = await axios.get(`https://campus-auth-backend-node-adxvh.ondigitalocean.app/${resource}`);
+    const response = await axios.get(`https://campus-auth-backend-node-adxvh.ondigitalocean.app/${resource.resource}`);
+    console.log("DATA", response.data.data);
     return {
-      data: response.data,
-      total: response.data.length,
+      data: response.data.data,
+      total: response.data.data.length,
     };
   },
 };
@@ -47,7 +47,7 @@ function App() {
               {experience === "dash" && <h1>Dashboard</h1>}
               {experience === "lectures" && <Lectures />}
               {experience === "courses" && <Courses />}
-              {experience === "students" && <Students />}
+              {experience === "students" && <Students experience={setExperience} />}
               {experience === "batches" && <Batches />}
               {experience === "forms" && <StudentForms />}
               {experience === "settings" && <Settings />}

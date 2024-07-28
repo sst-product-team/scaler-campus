@@ -5,10 +5,13 @@ import {
   useImport,
   ImportButton,
   ExportButton,
+  EditButton,
+  ShowButton
 } from "@refinedev/antd";
-import { Table } from "antd";
+import { Table, Input } from "antd";
 
-export default function Students() {
+
+export default function Students({experience}) {
   const importProps = useImport({
     mapData: (item) => {
       return {
@@ -29,7 +32,7 @@ export default function Students() {
     },
     queryOptions: {
       onSuccess: (data) => {
-        data.data = data.data.data; // Ensure the table gets the nested data array
+        data.data = data.data.data;
       },
     },
   });
@@ -39,17 +42,27 @@ export default function Students() {
       <div className="topNavActions">
         <div className="info">Manage Students</div>
         <div className="actions">
-          <ImportButton {...importProps} />
+          <ImportButton {...importProps}  />
           <ExportButton onClick={triggerExport} loading={exportLoading} />
           {/* <button className="butn">Add Student</button> */}
         </div>
       </div>
       <div className="studentDisplay">
         <Table {...tableProps} rowKey="userId">
-          <Table.Column dataIndex="userId" title="ID" />
-          <Table.Column dataIndex="name" title="Name" />
-          <Table.Column dataIndex="email" title="Email" />
-          <Table.Column dataIndex="phoneNumber" title="Phone Number" />
+          <Table.Column dataIndex="UserId" title="ID" />
+          <Table.Column dataIndex="Name" title="Name" sorter />
+          <Table.Column dataIndex="Email" title="Email" />
+          <Table.Column dataIndex="PhoneNumber" title="Phone Number" />
+          <Table.Column dataIndex="LoginAllowed" title="Login Allowed" render={(value) => (value ? <div style={{width: 20, height: 20, background:"#5CD83B", borderRadius: 100}} /> : <div style={{width: 20, height: 20, background:"#D85B3B", borderRadius: 100}} />)} />
+          <Table.Column dataIndex="LastLogin" title="Last Login" render={(text) => (text || "Never Logged In")} />
+          <Table.Column dataIndex="actions" title="Actions" render={(text, record) => (
+            <div className="actions">
+              <EditButton hideText={true} onClick={() => {
+                console.log("Edit", record);  
+              }}/>
+              <ShowButton hideText={true} />
+            </div>
+          )} />
         </Table>
       </div>
     </div>
