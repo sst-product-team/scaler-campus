@@ -11,18 +11,13 @@ import { App as AntdApp, ConfigProvider } from "antd";
 import { RefineThemes } from "@refinedev/antd";
 import { Refine } from "@refinedev/core";
 import axios from "axios";
+import dataProvider from "@refinedev/simple-rest";
+import AddStudent from "./app/Students/AddStudent";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 // Custom data provider to handle API response structure
-const customDataProvider = {
-  getList: async (resource, params) => {
-    const response = await axios.get(`https://campus-auth-backend-node-adxvh.ondigitalocean.app/${resource.resource}`);
-    console.log("DATA", response.data.data);
-    return {
-      data: response.data.data,
-      total: response.data.data.length,
-    };
-  },
-};
+const customDataProvider = dataProvider("https://campus-auth-backend-node-adxvh.ondigitalocean.app");
 
 function App() {
   const [experience, setExperience] = useState("students");
@@ -45,13 +40,15 @@ function App() {
             </div>
             <div className="experience">
               {experience === "dash" && <h1>Dashboard</h1>}
+              {experience === "addStudent" && <AddStudent />}
               {experience === "lectures" && <Lectures />}
               {experience === "courses" && <Courses />}
-              {experience === "students" && <Students experience={setExperience} />}
+              {experience === "students" && <Students stateChange={setExperience} />}
               {experience === "batches" && <Batches />}
               {experience === "forms" && <StudentForms />}
               {experience === "settings" && <Settings />}
             </div>
+            <ToastContainer position="bottom-right" />
           </div>
         </Refine>
       </AntdApp>

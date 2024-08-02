@@ -6,65 +6,149 @@ import {
   ImportButton,
   ExportButton,
   EditButton,
-  ShowButton
+  ShowButton,
 } from "@refinedev/antd";
-import { Table, Input } from "antd";
+import { Table, Input, Button } from "antd";
+import AddStudent from "./AddStudent";
+import { useState } from "react";
+import StudentDetail from "./StudentDetail";
+import EditStudent from "./EditStudent";
 
-
-export default function Students({experience}) {
+export default function Students({ stateChange }) {
   const importProps = useImport({
+    resource: "api/v0/user",
     mapData: (item) => {
+      console.log(item);
       return {
-        userId: item.userId,
         name: item.name,
         email: item.email,
-        phoneNumber: item.phoneNumber,
+        phone: item.phone,
       };
     },
-    batchSize: 10,
   });
-  const { triggerExport, isLoading: exportLoading } = useExport();
 
   const { tableProps } = useTable({
     resource: "api/v0/user",
-    meta: {
-      data: "data",
-    },
     queryOptions: {
       onSuccess: (data) => {
         data.data = data.data.data;
+        console.log(data);
       },
     },
   });
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const handleDetailClick = (record) => {
+    setSelectedStudent(record);
+    setDetailModalOpen(true);
+  };
+  const handleEditClick = (record) => {
+    setSelectedStudent(record);
+    setEditModalOpen(true);
+  };
 
   return (
     <div className="Students">
       <div className="topNavActions">
         <div className="info">Manage Students</div>
         <div className="actions">
-          <ImportButton {...importProps}  />
-          <ExportButton onClick={triggerExport} loading={exportLoading} />
-          {/* <button className="butn">Add Student</button> */}
+          <ImportButton {...importProps} />
+          {/* <ExportButton onClick={triggerExport} loading={exportLoading} /> */}
+          <Button
+            className="refine-create-button"
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
+            Add Student
+          </Button>
+          <AddStudent
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+          ></AddStudent>
         </div>
       </div>
       <div className="studentDisplay">
-        <Table {...tableProps} rowKey="userId">
+        <Table {...tableProps} rowKey="UserId">
           <Table.Column dataIndex="UserId" title="ID" />
           <Table.Column dataIndex="Name" title="Name" sorter />
           <Table.Column dataIndex="Email" title="Email" />
           <Table.Column dataIndex="PhoneNumber" title="Phone Number" />
-          <Table.Column dataIndex="LoginAllowed" title="Login Allowed" render={(value) => (value ? <div style={{width: 20, height: 20, background:"#5CD83B", borderRadius: 100}} /> : <div style={{width: 20, height: 20, background:"#D85B3B", borderRadius: 100}} />)} />
-          <Table.Column dataIndex="LastLogin" title="Last Login" render={(text) => (text || "Never Logged In")} />
-          <Table.Column dataIndex="actions" title="Actions" render={(text, record) => (
-            <div className="actions">
-              <EditButton hideText={true} onClick={() => {
-                console.log("Edit", record);  
-              }}/>
-              <ShowButton hideText={true} />
-            </div>
-          )} />
+          <Table.Column
+            dataIndex="LoginAllowed"
+            title="Login Allowed"
+            className=""
+            render={(value) =>
+              value ? (
+                <div
+                  style={{
+                    width: 20,
+                    height: 20,
+                    background: "#5CD83B",
+                    borderRadius: 100,
+                    margin: "0 50%",
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: 20,
+                    height: 20,
+                    background: "#D85B3B",
+                    borderRadius: 100,
+                  }}
+                />
+              )
+            }
+          />
+          <Table.Column
+            dataIndex="LastLogin"
+            title="Last Login"
+            render={(text) => text || "Never Logged In"}
+          />
+          <Table.Column
+            title="Actions"
+            render={(text, record) => (
+              <div className="actions">
+                <EditButton
+                  hideText={true}
+                  onClick={() => {
+                    handleEditClick(record);
+                    console.log("Edit", record);
+                  }}
+                />
+                <ShowButton
+                  hideText={true}
+                  onClick={() => {
+                    handleDetailClick(record);
+                    console.log("Show", record);
+                  }}
+                />
+              </div>
+            )}
+          />
         </Table>
       </div>
+
+      {detailModalOpen && (
+        <StudentDetail
+          user={selectedStudent}
+          modalOpen={detailModalOpen}
+          setModalOpen={setDetailModalOpen}
+        />
+      )}
+
+      {editModalOpen && (
+        <EditStudent
+          user={selectedStudent}
+          modalOpen={editModalOpen}
+          setModalOpen={setEditModalOpen}
+        />
+      )}
     </div>
   );
 }
