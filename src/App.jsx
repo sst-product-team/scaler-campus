@@ -10,14 +10,13 @@ import Settings from "./app/Settings/Settings";
 import { App as AntdApp, ConfigProvider } from "antd";
 import { RefineThemes } from "@refinedev/antd";
 import { Refine } from "@refinedev/core";
-import axios from "axios";
 import dataProvider from "@refinedev/simple-rest";
 import AddStudent from "./app/Students/AddStudent";
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 
 // Custom data provider to handle API response structure
-const customDataProvider = dataProvider("https://campus-auth-backend-node-adxvh.ondigitalocean.app");
+const customDataProvider = dataProvider("https://8hbbktpk-5001.inc1.devtunnels.ms");
 
 function App() {
   const [experience, setExperience] = useState("students");

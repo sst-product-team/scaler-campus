@@ -1,5 +1,5 @@
 import { DeleteButton, useTable } from "@refinedev/antd";
-import { Button, Drawer, Form, Modal, Table } from "antd";
+import { Button, Drawer, Table } from "antd";
 import React, { useState } from "react";
 import AddStudentBatches from "./AddStudentBatches";
 
@@ -16,6 +16,7 @@ function BatchStudentList({ batch, modalOpen, setModalOpen }) {
   function handleAddStudentClick() {
     setAddStudentModal(true);
   }
+  const url = `api/v0/batch/${batch.BatchId}/students`;
   let title = `Students of ${batch.Name}`;
   return (
     <Drawer
@@ -28,7 +29,8 @@ function BatchStudentList({ batch, modalOpen, setModalOpen }) {
     >
       <div className="p-4 space-y-4 ">
         <Table {...tableProps} className="">
-          <Table.Column title="Email" />
+          <Table.Column dataIndex="id" title="ID" />
+          <Table.Column dataIndex="email" title="Email" />
           <Table.Column
             title="Actions"
             render={(text, record) => (
@@ -36,7 +38,8 @@ function BatchStudentList({ batch, modalOpen, setModalOpen }) {
                 <DeleteButton
                   size="small"
                   hideText={true}
-                  onClick={() => {}}
+                  resource={url}
+                  recordItemId={record.id}
                 ></DeleteButton>
               </div>
             )}

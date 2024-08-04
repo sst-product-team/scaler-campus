@@ -94,8 +94,9 @@ export default function Students({ stateChange }) {
                   style={{
                     width: 20,
                     height: 20,
-                    background: "#D85B3B",
+                    background: "#ed717a",
                     borderRadius: 100,
+                    margin: "0 50%",
                   }}
                 />
               )
