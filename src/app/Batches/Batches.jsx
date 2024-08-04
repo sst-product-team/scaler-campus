@@ -1,28 +1,15 @@
 import {
   useTable,
-  useImport,
-  ImportButton,
   EditButton,
   ShowButton,
 } from "@refinedev/antd";
-import { Table, Input, Button } from "antd";
-import AddStudent from "../Students/AddStudent";
+import { Table, Button } from "antd";
 import { useState } from "react";
 import BatchStudentList from "./BatchStudentList";
+import AddBatches from "./AddBatches";
+import EditBatch from "./EditBatch";
 
 export default function Batches() {
-  const importProps = useImport({
-    resource: "api/v0/user",
-    mapData: (item) => {
-      console.log(item);
-      return {
-        name: item.name,
-        email: item.email,
-        phone: item.phone,
-      };
-    },
-  });
-
   const { tableProps } = useTable({
     resource: "api/v0/batch",
     queryOptions: {
@@ -51,19 +38,18 @@ export default function Batches() {
       <div className="topNavActions">
         <div className="info">Manage Batches</div>
         <div className="actions">
-          <ImportButton {...importProps} />
           <Button
             className="refine-create-button"
             onClick={() => {
               setModalOpen(true);
             }}
           >
-            Add Student
+            Add Batch
           </Button>
-          <AddStudent
+          <AddBatches
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}
-          ></AddStudent>
+          ></AddBatches>
         </div>
       </div>
       <div className="studentDisplay">
@@ -103,13 +89,13 @@ export default function Batches() {
         ></BatchStudentList>
       )}
 
-      {/* {editModalOpen && (
-        // <EditStudent
-        //   user={selectedStudent}
-        //   modalOpen={editModalOpen}
-        //   setModalOpen={setEditModalOpen}
-        // />
-      )} */}
+      {editModalOpen && (
+        <EditBatch
+          batch={selectedBatch}
+          modalOpen={editModalOpen}
+          setModalOpen={setEditModalOpen}
+        />
+      )}
     </div>
   );
 }

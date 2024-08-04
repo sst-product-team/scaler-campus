@@ -13,8 +13,8 @@ function AddStudentBatches({ modalOpen, setModalOpen, batchId }) {
     const trimmedString = value.trim(); // Remove leading and trailing spaces
     const numArray = trimmedString
       .split(",")
-      .map((num) => num.trim())
-      .filter((num) => num !== "");
+      .filter((num) => num !== "")
+      .map((num) => parseInt(num.trim(), 10));
     setStudentIds(numArray);
     console.log("Num array:", numArray);
   };

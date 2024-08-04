@@ -1,14 +1,10 @@
 export default function Settings() {
     
     return (
-        <div className="Students">
-            <div className="topNavActions">
-                <div className="info">
-                    User Settings 
-                </div>
-                <div className="actions">
-                    {/* <button className="butn outlined">Import Lecture</button> */}
-                    {/* <button className="butn">Create Lecture</button> */}
+        <div className="h-full w-full flex justify-center items-center">
+            <div className="">
+                <div className="text-2xl font-bold">
+                    Coming Soon 
                 </div>
             </div>
         </div>

@@ -19,18 +19,12 @@ function BatchStudentList({ batch, modalOpen, setModalOpen }) {
   let title = `Students of ${batch.Name}`;
   return (
     <Drawer
-      //    className="h-max w-max"
-        width="100VW"
+      width="100VW"
       title={title}
       open={modalOpen}
-      onOk={() => {
-        setModalOpen(false);
-      }}
       onClose={() => {
         setModalOpen(false);
       }}
-      footer={null}
-      centered={true}
     >
       <div className="p-4 space-y-4 ">
         <Table {...tableProps} className="">
