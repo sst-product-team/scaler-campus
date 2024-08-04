@@ -1,10 +1,8 @@
 import "./Students.css";
-import { useExport } from "@refinedev/core";
 import {
   useTable,
   useImport,
   ImportButton,
-  ExportButton,
   EditButton,
   ShowButton,
 } from "@refinedev/antd";
@@ -30,8 +28,7 @@ export default function Students({ stateChange }) {
   const { tableProps } = useTable({
     resource: "api/v0/user",
     queryOptions: {
-      onSuccess: (data) => {
-        data.data = data.data;
+      onSuccess: (data) => {;
         console.log(data);
       },
     },
@@ -57,7 +54,6 @@ export default function Students({ stateChange }) {
         <div className="info">Manage Students</div>
         <div className="actions">
           <ImportButton {...importProps} />
-          {/* <ExportButton onClick={triggerExport} loading={exportLoading} /> */}
           <Button
             className="refine-create-button"
             onClick={() => {

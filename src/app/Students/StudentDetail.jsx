@@ -1,6 +1,5 @@
 import React from "react";
 import { Modal } from "antd";
-import 'tailwindcss/tailwind.css';
 
 function formatDate(dateString) {
   if (!dateString) return "Never Logged In";
