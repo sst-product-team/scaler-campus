@@ -5,7 +5,7 @@ import Logo from "../../assets/ProductTeamLogo.svg";
 export default function Navbar({ state, stateChange }) {
   return (
     <div className="navContainer">
-      <div className="h-full flex flex-col justify-between">
+      <div className="flex flex-col justify-between">
         <div>
           <div className="campusUser mt-4">Campus Teacher</div>
           <div className="courseSection">
@@ -151,8 +151,9 @@ export default function Navbar({ state, stateChange }) {
             </div>
           </div>
         </div>
-        <div className="bottom flex justify-center items-center my-4 pr-4 opacity-70">
-          <img src={Logo} alt="Product Team Logo" className="h-16" />
+
+        <div className="pt-logo flex justify-center items-center w-full h-full text-[#939597] font-semibold">
+          powered by Product Team
         </div>
       </div>
     </div>

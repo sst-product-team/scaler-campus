@@ -31,7 +31,7 @@ export default function Students({ stateChange }) {
     resource: "api/v0/user",
     queryOptions: {
       onSuccess: (data) => {
-        data.data = data.data.data;
+        data.data = data.data;
         console.log(data);
       },
     },
