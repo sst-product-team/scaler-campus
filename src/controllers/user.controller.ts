@@ -85,10 +85,7 @@ class UserController {
         const users = await this.prismaClient.user.findMany();
 
         // send response
-        res.json({
-            message: 'Get Users',
-            data: users
-        });
+        res.json(users);
     }
 
     async getUserById(req: Request, res: Response) {
@@ -103,10 +100,7 @@ class UserController {
         });
 
         //send response
-        res.json({
-            message: 'Get User By Id',
-            data: user
-        });
+        res.json(user);
     }
 
     async createUser(req: Request, res: Response) {

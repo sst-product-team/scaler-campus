@@ -21,7 +21,7 @@ class BatchController {
         const batches = await this.prisma.batch.findMany();
 
         // Send response
-        res.json({ message: 'Get Batches', data: batches });
+        res.json(batches);
     }
 
     async getBatchById(req : Request, res : Response) {
@@ -41,7 +41,7 @@ class BatchController {
         });
 
         // Send response
-        res.json({ message: 'Get Batch by ID', data : batch });
+        res.json(batch);
 
     }
 
@@ -95,7 +95,7 @@ class BatchController {
         });
 
         // Send response
-        res.json({data: students });
+        res.json(students);
     }
 
     async addBatchStudents(req : Request, res : Response) {
