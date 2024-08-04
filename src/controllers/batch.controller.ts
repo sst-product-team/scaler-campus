@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import {prisma, PrismaClient} from '../utils/prismaClient';
 
 class BatchController {
 
     public prisma: PrismaClient; // Prisma Client to interact with database
 
     constructor() {
-        this.prisma = new PrismaClient();
+        this.prisma = prisma;
         this.getBatch = this.getBatch.bind(this);
         this.getBatchById = this.getBatchById.bind(this);
         this.createBatch = this.createBatch.bind(this);
@@ -14,6 +14,7 @@ class BatchController {
         this.deleteBatch = this.deleteBatch.bind(this);
         this.getBatchStudents = this.getBatchStudents.bind(this);
         this.addBatchStudents = this.addBatchStudents.bind(this);
+        this.removeBatchStudents = this.removeBatchStudents.bind(this);
     }
 
     async getBatch(req : Request, res : Response) {
@@ -122,7 +123,7 @@ class BatchController {
 
         // Add students to batch
         let message = "";
-        students.forEach(async (studentId : number) => {
+        students.forEach(async (studentId : number) => {            
 
             // Get student
             const student = await this.prisma.user.findUnique({
@@ -134,6 +135,20 @@ class BatchController {
             //validate data
 
             if (student) {
+
+                // make sure student is not already in batch
+                const studentInBatch = await this.prisma.batchStudents.findFirst({
+                    where: {
+                        BatchId: parseInt(batchId),
+                        UserId: studentId
+                    }
+                });
+
+                if (studentInBatch) {
+                    message += `Student with ID ${studentId} already in batch. `;
+                    return;
+                }
+
                 await this.prisma.batchStudents.create({
                     data: {
                         BatchId: parseInt(batchId),
@@ -152,8 +167,72 @@ class BatchController {
             }
         });
 
+        console.log(message);
+
         // Send response
         res.json({ message: 'Students added to batch' + message, data: newBatchStudent });
+    }
+
+    // TODO: remove student from batch
+    async removeBatchStudents(req : Request, res : Response) {
+        const batchId = req.params.batchId;
+        const studentId = req.params.studentId;
+
+        // validate data
+        if (!batchId || !studentId) {
+            return res.status(400).json({ message: 'Batch ID and Student ID are required' });
+        }
+
+        // get batch
+        const batch = await this.prisma.batch.findUnique({
+            where: {
+                BatchId: parseInt(batchId)
+            }
+        });
+
+        // validate data
+        if (!batch) {
+            return res.status(400).json({ message: 'Batch not found' });
+        }
+
+        // get student
+        const student = await this.prisma.user.findUnique({
+            where: {
+                UserId: parseInt(studentId)
+            }
+        });
+
+        // validate data
+        if (!student) {
+            return res.status(400).json({ message: 'Student not found' });
+        }
+
+        // check student in batch
+        const studentInBatch = await this.prisma.batchStudents.findFirst({
+            where: {
+                BatchId: parseInt(batchId),
+                UserId: parseInt(studentId)
+            }
+        });
+
+        // validate data
+        if (!studentInBatch) {
+            return res.status(400).json({ message: 'Student not in batch' });
+        }
+
+        // remove student from batch
+        await this.prisma.batchStudents.delete({
+            where: {
+                BatchId_UserId: {
+                    BatchId: parseInt(batchId),
+                    UserId: parseInt(studentId)
+                }
+            }
+        });
+
+        // Send response
+        res.json(`Student ${student.Email} removed from batch`);
+        
     }
 
     async createBatch(req : Request, res : Response) {
@@ -163,6 +242,18 @@ class BatchController {
         //validate data
         if (!name || !desc) {
             return res.status(400).json({ message: 'Name and Description are required' });
+        }
+
+        // check if batch already exists
+        const batchExists = await this.prisma.batch.findFirst({
+            where: {
+                Name: name
+            }
+        });
+
+        // validate data
+        if (batchExists) {
+            return res.status(400).json({ message: 'Batch already exists' });
         }
 
         // Create new batch

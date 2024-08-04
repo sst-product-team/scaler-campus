@@ -16,6 +16,7 @@ class BatchRouter {
         this.router.get("/:batchId", this.controller.getBatchById);
         this.router.get("/:batchId/students", this.controller.getBatchStudents);
         this.router.post("/:batchId/students", this.controller.addBatchStudents);
+        this.router.delete("/:batchId/students/:studentId", this.controller.removeBatchStudents);
         this.router.post("", this.controller.createBatch);
         this.router.put("/:batchId", this.controller.updateBatch);
         this.router.delete("/:batchId", this.controller.deleteBatch);
