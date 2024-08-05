@@ -1,9 +1,10 @@
-import { prisma, PrismaClient } from "../utils/prismaClient";
-import CourseDTO from "../models/CourseDTO";
-import { Request, Response } from "express";
+import { PrismaClient } from '@prisma/client';
+import CourseDTO from '../models/CourseDTO';
+import { Request, Response } from 'express';
+
+const prisma = new PrismaClient();
 
 class CourseController {
-
     public prismaClient: PrismaClient;
 
     constructor() {
@@ -19,187 +20,114 @@ class CourseController {
     }
 
     async getAllCourses(req: Request, res: Response) {
-
-        // get all courses from the database
         const allCourses = await this.prismaClient.course.findMany();
-
-        // map the courses to the Course
-        const courses : CourseDTO[] = allCourses.map((course) => {
-            const c : CourseDTO = {
-                id: course.CourseId,
-                Name: course.Name,
-                Description: course.Description
-            };
-
-            return c;
-        });
-
-        // send the response
+        const courses: CourseDTO[] = allCourses.map((course) => ({
+            id: course.CourseId,
+            Name: course.Name,
+            Description: course.Description,
+        }));
         res.json(courses);
     }
 
     async getCourseById(req: Request, res: Response) {
         const courseId = parseInt(req.params.courseId);
         const course = await this.prismaClient.course.findUnique({
-            where: {
-                CourseId: courseId
-            }
+            where: { CourseId: courseId },
         });
 
         if (course) {
             const c: CourseDTO = {
                 id: course.CourseId,
                 Name: course.Name,
-                Description: course.Description
+                Description: course.Description,
             };
-
             res.json(c);
         } else {
-            res.status(404).json({ message: "Course not found" });
+            res.status(404).json({ message: 'Course not found' });
         }
     }
 
     async createCourse(req: Request, res: Response) {
-        const {name, desc} = req.body; // get the course from the request body
-
-        // check if name or description is provided
-        const course: any = {
-            "Name": name,
-            "Description": desc
-        };
-
-        // create the course in the database
+        const { name, desc } = req.body;
+        const course = { Name: name, Description: desc };
         const newCourse = await this.prismaClient.course.create({
-            data: {
-                Name: course.Name,
-                Description: course.Description
-            }
+            data: course,
         });
-
-        // send the response
         res.json(newCourse);
-
     }
 
     async updateCourse(req: Request, res: Response) {
         const courseId = parseInt(req.params.courseId);
-        const {name, desc} = req.body;
+        const { name, desc } = req.body;
+        const course = { Name: name, Description: desc };
 
-        const course: any = {
-            Name: name,
-            Description: desc
-        }
-
-        // check if name or description is provided
-        if(!course.Name && !course.Description) {
-            res.status(400).json({ message: "Name or Description is required" });
+        if (!course.Name && !course.Description) {
+            res.status(400).json({ message: 'Name or Description is required' });
             return;
         }
 
-        // get course from the database
         const currentCourse = await this.prismaClient.course.findUnique({
-            where: {
-                CourseId: courseId
-            }
+            where: { CourseId: courseId },
         });
 
-        // check if course exists
-        if(!currentCourse) {
-            res.status(404).json({ message: "Course not found" });
+        if (!currentCourse) {
+            res.status(404).json({ message: 'Course not found' });
             return;
         }
 
-        // if new name not present use old name
-        if(!course.Name) {
-            course.Name = currentCourse.Name;
-        }
+        if (!course.Name) course.Name = currentCourse.Name;
+        if (!course.Description) course.Description = currentCourse.Description;
 
-        // if new description not present use old description
-        if(!course.Description) {
-            course.Description = currentCourse.Description;
-        }
-
-        // update the course in the database
         const updatedCourse = await this.prismaClient.course.update({
-            where: {
-                CourseId: courseId
-            },
-            data: {
-                Name: course.Name,
-                Description: course.Description
-            }
+            where: { CourseId: courseId },
+            data: course,
         });
 
-        // send the response
         res.json(updatedCourse);
-
     }
 
     async deleteCourse(req: Request, res: Response) {
-        // TODO: Delete course not implemented since it is not required for the course
-        res.send("Course cannot be deleted");
+        res.send('Course cannot be deleted');
     }
 
     async getCourseBathes(req: Request, res: Response) {
         const courseId = parseInt(req.params.courseId);
-        
-        // validate data
+
         if (!courseId) {
             return res.status(400).json({ message: 'Course ID is required' });
         }
 
-        // get the course
         const course = await this.prismaClient.course.findUnique({
-            where: {
-                CourseId: courseId
-            }
+            where: { CourseId: courseId },
         });
 
-        // validate data
         if (!course) {
             return res.status(400).json({ message: 'Course not found' });
         }
 
-        // get the batches
         const batches = await this.prismaClient.courseBatches.findMany({
-            where: {
-                CourseId: courseId
-            }
+            where: { CourseId: courseId },
         });
 
-        // return proper batch data instead of ids
-        const batchData = new Promise<any[]>((resolve, reject) => {
-            const BatchDeatils: any[] = []
-            batches.forEach(async (batch : any, index: number, array: any[]) => {
+        const batchData = await Promise.all(
+            batches.map(async (batch) => {
                 const batchData = await this.prismaClient.batch.findUnique({
-                    where: {
-                        BatchId: batch.BatchId
-                    }
+                    where: { BatchId: batch.BatchId },
                 });
-
                 if (!batchData) {
                     return res.status(400).json({ message: 'Batch not found' });
                 }
+                return batchData;
+            })
+        );
 
-                BatchDeatils[index] = batchData;
-
-                if(index == array.length - 1) {
-                    resolve(BatchDeatils);
-                }
-            });
-        });
-
-        // send response
-        batchData.then((result) => {
-            res.json(result);
-        });
+        res.json(batchData);
     }
 
     async addCourseBatch(req: Request, res: Response) {
-        const {courseId} = req.params;
-        const {batches} = req.body;
+        const { courseId } = req.params;
+        const { batches } = req.body;
 
-        // validate data
         if (!courseId) {
             return res.status(400).json({ message: 'Course ID is required' });
         }
@@ -207,74 +135,45 @@ class CourseController {
             return res.status(400).json({ message: 'Batches are required' });
         }
 
-        // get the course
         const course = await this.prismaClient.course.findUnique({
-            where: {
-                CourseId: parseInt(courseId)
-            }
+            where: { CourseId: parseInt(courseId) },
         });
 
-        // validate data
         if (!course) {
             return res.status(400).json({ message: 'Course not found' });
         }
 
-        // add the batches array to batches
-        const courseBatches = new Promise<void>((resolve, reject) => {
-            batches.forEach(async (batch : number, index: number, array: any[]) => {
-
-                // get batch
+        await Promise.all(
+            batches.map(async (batch: number) => {
                 const batchExists = await this.prismaClient.batch.findUnique({
-                    where: {
-                        BatchId: batch
-                    }
+                    where: { BatchId: batch },
                 });
-    
-                // validate data
+
                 if (!batchExists) {
                     return res.status(400).json({ message: 'Batch not found' });
                 }
-    
-                // check if batch already exists for the course
+
                 const courseBatchExists = await this.prismaClient.courseBatches.findFirst({
-                    where: {
-                        CourseId: parseInt(courseId),
-                        BatchId: batch
-                    }
+                    where: { CourseId: parseInt(courseId), BatchId: batch },
                 });
-    
-                // validate data
-                if (courseBatchExists !== null) {
+
+                if (courseBatchExists) {
                     return res.status(400).json({ message: 'Batch already exists for the course' });
                 }
-    
-                // add the batch to the course
+
                 await this.prismaClient.courseBatches.create({
-                    data: {
-                        CourseId: parseInt(courseId),
-                        BatchId: batch
-                    }
+                    data: { CourseId: parseInt(courseId), BatchId: batch },
                 });
+            })
+        );
 
-                if(index == array.length - 1) {
-                    resolve();
-                }
-
-            });
-        });
-
-        courseBatches.then(() => {
-            res.json({ message: 'Batches added to course' });
-        });
-
+        res.json({ message: 'Batches added to course' });
     }
 
     async deleteCourseBatch(req: Request, res: Response) {
-
         const courseID = parseInt(req.params.courseId);
         const batchID = parseInt(req.params.batchId);
 
-        // validate data
         if (!courseID) {
             return res.status(400).json({ message: 'Course ID is required' });
         }
@@ -282,58 +181,41 @@ class CourseController {
             return res.status(400).json({ message: 'Batch ID is required' });
         }
 
-        // get the course
         const course = await this.prismaClient.course.findUnique({
-            where: {
-                CourseId: courseID
-            }
+            where: { CourseId: courseID },
         });
 
-        // validate data
         if (!course) {
             return res.status(400).json({ message: 'Course not found' });
         }
 
-        // get the batch
         const batch = await this.prismaClient.batch.findUnique({
-            where: {
-                BatchId: batchID
-            }
+            where: { BatchId: batchID },
         });
 
-        // validate data
         if (!batch) {
             return res.status(400).json({ message: 'Batch not found' });
         }
 
-        // get the course batch
         const courseBatch = await this.prismaClient.courseBatches.findFirst({
-            where: {
-                CourseId: courseID,
-                BatchId: batchID
-            }
+            where: { CourseId: courseID, BatchId: batchID },
         });
-
-        // validate data
 
         if (!courseBatch) {
             return res.status(400).json({ message: 'Course batch not found' });
         }
 
-        // delete the course batch
         await this.prismaClient.courseBatches.delete({
             where: {
                 CourseId_BatchId: {
                     CourseId: courseID,
-                    BatchId: batchID
-                }
-            }
+                    BatchId: batchID,
+                },
+            },
         });
 
-        // send response
         res.send(`Batch "${batch.Name}" removed from course "${course.Name}"`);
     }
-
 }
 
 export default CourseController;
