@@ -63,7 +63,7 @@ class CourseController {
         const {name, desc} = req.body; // get the course from the request body
 
         // check if name or description is provided
-        const course = {
+        const course: any = {
             "Name": name,
             "Description": desc
         };
@@ -85,7 +85,7 @@ class CourseController {
         const courseId = parseInt(req.params.courseId);
         const {name, desc} = req.body;
 
-        const course = {
+        const course: any = {
             Name: name,
             Description: desc
         }

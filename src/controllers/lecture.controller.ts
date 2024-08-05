@@ -79,6 +79,9 @@ class LectureController {
             // format date and time
             lectureData.startTime = new Date(lectureData.startTime).toISOString();
             lectureData.endTime = new Date(lectureData.endTime).toISOString();
+
+            console.log(lectureData);
+            
             
             // create the lecture
             const lecture = await this.prismaClient.lecture.create({
