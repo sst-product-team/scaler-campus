@@ -83,3 +83,59 @@ model BatchStudents {
 
   @@id([BatchId, UserId])
 }
+
+model Course {
+  CourseId    Int      @id @default(autoincrement()) @map("course_id")
+  Name        String   @map("name")
+  Description String   @map("description")
+  CreatedOn   DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn   DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}
+
+model CourseBatches {
+  CourseId  Int      @map("course_id")
+  BatchId   Int      @map("batch_id")
+  CreatedAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  UpdatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@id([CourseId, BatchId])
+}
+
+model Lecture {
+  LectureId   Int      @id @default(autoincrement()) @map("lecture_id")
+  Name        String   @map("name")
+  Description String   @map("description")
+  StartTime  DateTime @map("start_time") @db.Timestamp(6)
+  EndTime    DateTime @map("end_time") @db.Timestamp(6)
+  LectureDate DateTime @map("lecture_date") @db.Date
+  AttendanceType String @map("attendance_type")
+  MininumAttendance Int @map("mininum_attendance") @default(75)
+  CreatedOn   DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn   DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}
+
+model LectureCourse {
+  LectureId Int      @map("lecture_id")
+  CourseId  Int      @map("course_id")
+  CreatedAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  UpdatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@id([LectureId, CourseId])
+}
+
+
+model FormsAndFeedback {
+  FormId      Int      @id @default(autoincrement()) @map("form_id")
+  Name        String   @map("name")
+  Description String   @map("description")
+  CreatedOn   DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn   DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}
+
+model Questions {
+  QuestionId  Int      @id @default(autoincrement()) @map("question_id")
+  Question    String   @map("question")
+  FormId      Int      @map("form_id")
+  CreatedOn   DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn   DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}

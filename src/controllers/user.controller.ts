@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import PasswordGenerator from "../utils/passwordGenerator";
 import EmailService from "../email/EmailService";
 import EmailServiceNodeMailer from "../email/EmailServiceNodeMailer";
 import csv from "csv-parse";
 import fs from "fs";
 import NewUserEmailDTO from "../models/NewUserEmailDTO";
+import {prisma, PrismaClient} from '../utils/prismaClient';
 
-type MailUserProps = NewUserEmailDTO | "Incomplete user details";
+type MailUserProps = NewUserEmailDTO | "Incomplete user details" | "User already exists";
 
 class UserController {
     public prismaClient: PrismaClient;
     public passwordGenerator: PasswordGenerator;
     public emailService: EmailService;
     constructor() {
-        this.prismaClient = new PrismaClient(); // create a new instance of PrismaClient
+        this.prismaClient = prisma; // instance of PrismaClient
         this.passwordGenerator = new PasswordGenerator(); // generate and hash password
         this.emailService = new EmailServiceNodeMailer(); // send email to the user
 
@@ -46,6 +46,17 @@ class UserController {
         }
 
         // TODO: validate the email and phone number
+
+        // check if user already exists
+        const userExisting = await this.prismaClient.user.findUnique({
+            where: {
+                Email: email
+            }
+        });
+
+        if (userExisting) {
+            return "User already exists";
+        }
         
         // generate a secure password
         const pass = await this.passwordGenerator.generateSecurePassword(15);
@@ -117,6 +128,13 @@ class UserController {
             return;
         }
 
+        if(user == "User already exists") {
+            res.status(400).json({
+                message: 'User already exists'
+            });
+            return;
+        }
+
         // send email to the user
         await this.emailUser(email, phone, user.password);
 
@@ -161,6 +179,12 @@ class UserController {
                     });
                     return;
                 }
+                else if (user == "User already exists") {
+                    res.status(400).json({
+                        message: 'User already exists'
+                    });
+                    return;
+                }
                 else {
                     // send email to the user
                     const mailed = await this.emailUser(email, phone, user.password).then((mailed) => {
@@ -184,6 +208,9 @@ class UserController {
 
         // get user details
         let { name, email, phone, loginAllowed} = req.body;
+
+        console.log("getting put for", userId, name, email, phone, loginAllowed);
+        
 
         // validate user
         if (!userId) {
@@ -210,9 +237,11 @@ class UserController {
         if (!phone) {
             phone = user.PhoneNumber;
         }
-        if (!loginAllowed) {
+        if (loginAllowed === undefined) {
             loginAllowed = user.LoginAllowed;
         }
+
+        console.log(typeof loginAllowed);
 
         // update user
         await this.prismaClient.user.update({
@@ -226,6 +255,8 @@ class UserController {
                 LoginAllowed: loginAllowed
             }
         });
+
+        res.json({ message: 'User updated' });
     }
 
     async deleteUser(req: Request, res: Response) {

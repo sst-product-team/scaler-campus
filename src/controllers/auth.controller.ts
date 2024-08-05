@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import PasswordGenerator from '../utils/passwordGenerator';
 import JWT from '../jwt/JWT';
+import {prisma, PrismaClient} from '../utils/prismaClient';
 
 type AuthUserProps = {
     email: string;
@@ -14,7 +14,7 @@ class AuthController {
     public passwordGenerator: PasswordGenerator;
     public jwt: JWT;
     constructor() {
-        this.prismaClient = new PrismaClient();
+        this.prismaClient = prisma;
         this.passwordGenerator = new PasswordGenerator();
         this.jwt = new JWT();
         this.login = this.login.bind(this);

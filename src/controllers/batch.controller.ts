@@ -91,7 +91,10 @@ class BatchController {
         }).then((data) => {
             // map id to student
             return data.map((student) => {
-                return student.Email;
+                return {
+                    id: student.UserId,
+                    email: student.Email
+                };
             });
         });
 
@@ -123,7 +126,7 @@ class BatchController {
 
         // Add students to batch
         let message = "";
-        students.forEach(async (studentId : number) => {            
+        await students.forEach(async (studentId : number) => {            
 
             // Get student
             const student = await this.prisma.user.findUnique({
@@ -133,7 +136,6 @@ class BatchController {
             });
 
             //validate data
-
             if (student) {
 
                 // make sure student is not already in batch
@@ -160,17 +162,8 @@ class BatchController {
             }
         });
 
-        // Get students
-        const newBatchStudent = await this.prisma.batchStudents.findMany({
-            where: {
-                BatchId: parseInt(batchId)
-            }
-        });
-
-        console.log(message);
-
         // Send response
-        res.json({ message: 'Students added to batch' + message, data: newBatchStudent });
+        res.json("Students added to batch");
     }
 
     // TODO: remove student from batch

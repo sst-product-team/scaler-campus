@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client';
 import UserRoute from '../routes/user.route';
 import AuthRoute from '../routes/auth.route';
 import BatchRoute from '../routes/batch.route';
+import CourseRoute from '../routes/course.route';
+import LecureRoute from '../routes/lecture.route';
 import cors from 'cors';
 
 class App {
@@ -26,6 +28,8 @@ class App {
         this.app.use("/api/v0/user", new UserRoute().router);
         this.app.use("/api/v0/batch", new BatchRoute().router);
         this.app.use("/api/v0/auth", new AuthRoute().router);
+        this.app.use("/api/v0/course", new CourseRoute().router);
+        this.app.use("/api/v0/lecture", new LecureRoute().router);
 
     }
 

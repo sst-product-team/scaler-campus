@@ -29,10 +29,10 @@ class UserRoute {
         this.router.post("/bulk", upload.single('file') , this.usercontroller.createBulkUser);
 
         // update user by id
-        this.router.put("/:id", this.usercontroller.updateUser);
+        this.router.put("/:userId", this.usercontroller.updateUser);
 
         // delete user by id
-        this.router.delete("/:id", this.usercontroller.deleteUser);
+        this.router.delete("/:userId", this.usercontroller.deleteUser);
     }
 }
 
