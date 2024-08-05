@@ -11,12 +11,11 @@ function AddLecture({ modalOpen, setModalOpen }) {
     form
       .validateFields()
       .then((values) => {
-        // Format the date and time fields
         const formattedValues = {
           ...values,
+          minAttendance : parseInt(values.minAttendance),
           startTime: values.startTime.toISOString(),
           endTime: values.endTime.toISOString(),
-        //   LectureDate: values.LectureDate.toISOString(),
         };
 
         console.log("Form data:", formattedValues);
@@ -52,13 +51,6 @@ function AddLecture({ modalOpen, setModalOpen }) {
       centered={true}
     >
       <Form form={form} layout="vertical" className="m-10">
-        {/* <Form.Item
-          label="Lecture ID"
-          name="LectureId"
-          rules={[{ required: true, message: "Please input the Lecture ID!" }]}
-        >
-          <Input />
-        </Form.Item> */}
         <Form.Item
           label="Name"
           name="Name"
@@ -87,13 +79,6 @@ function AddLecture({ modalOpen, setModalOpen }) {
         >
           <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
         </Form.Item>
-        {/* <Form.Item
-          label="Lecture Date"
-          name="LectureDate"
-          rules={[{ required: true, message: "Please select the lecture date!" }]}
-        >
-          <DatePicker format="YYYY-MM-DD" />
-        </Form.Item> */}
         <Form.Item
           label="Attendance Type"
           name="attendanceType"
@@ -106,7 +91,7 @@ function AddLecture({ modalOpen, setModalOpen }) {
         </Form.Item>
         <Form.Item
           label="Minimum Attendance (%)"
-          name="minimumAttendance"
+          name="minAttendance"
           rules={[{ required: true, message: "Please input the minimum attendance percentage!" }]}
         >
           <Input type="number" min={0} max={100} />

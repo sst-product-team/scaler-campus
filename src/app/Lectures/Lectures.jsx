@@ -4,7 +4,6 @@ import { useState } from "react";
 import AddLecture from "./AddLectures";
 import LectureDetail from "./LectureDetail";
 
-
 export default function Lectures() {
   const { tableProps } = useTable({
     resource: "api/v0/lecture",
@@ -31,7 +30,13 @@ export default function Lectures() {
 
   function formatDate(dateString) {
     if (!dateString) return "Never Logged In";
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
     return new Date(dateString).toLocaleDateString(undefined, options);
   }
 
@@ -101,8 +106,8 @@ export default function Lectures() {
       {detailModalOpen && (
         <LectureDetail
           lecture={selectedLecture}
-          modalOpen={detailModalOpen}
-          setModalOpen={setDetailModalOpen}
+          drawerOpen={detailModalOpen}
+          setDrawerOpen={setDetailModalOpen}
         ></LectureDetail>
       )}
 

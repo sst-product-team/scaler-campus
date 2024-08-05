@@ -3,6 +3,11 @@ import React from "react";
 import Logo from "../../assets/ProductTeamLogo.svg";
 
 export default function Navbar({ state, stateChange }) {
+  const LogOutUser = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
+
   return (
     <div className="navContainer">
       <div className="flex flex-col justify-between">
@@ -137,7 +142,7 @@ export default function Navbar({ state, stateChange }) {
             <div className="sectionHeader">Account and Profile</div>
 
             <div className="Management">
-              <div className="Header logout">
+              <div className="Header logout" onClick={LogOutUser}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height={22}

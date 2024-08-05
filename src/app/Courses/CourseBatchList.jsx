@@ -16,7 +16,7 @@ function CourseBatchList({ course, modalOpen, setModalOpen }) {
   function handleAddStudentClick() {
     setaddBatchesModal(true);
   }
-    const url = `api/v0/course/${course.id}/batches`;
+  const url = `api/v0/course/${course.id}/batches`;
   let title = `Batches of ${course.Name}`;
   return (
     <Drawer
@@ -38,8 +38,8 @@ function CourseBatchList({ course, modalOpen, setModalOpen }) {
                 <DeleteButton
                   size="small"
                   hideText={true}
-                    resource={url}
-                    recordItemId={record.BatchId}
+                  resource={url}
+                  recordItemId={record.BatchId}
                 ></DeleteButton>
               </div>
             )}
@@ -61,7 +61,6 @@ function CourseBatchList({ course, modalOpen, setModalOpen }) {
           setModalOpen={setaddBatchesModal}
           title={"Add Batches"}
           postParam={"batches"}
-          postUrl={`https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/course/${course.id}/batches`}
         ></AddWithIds>
       )}
     </Drawer>
