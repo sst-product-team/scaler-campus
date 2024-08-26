@@ -5,6 +5,7 @@ import { Form, Input } from "antd";
 
 function AddCourses({ modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
+  const apiURL = process.env.REACT_APP_DB_URL + "/course";
 
   const handleSubmit = () => {
     form
@@ -14,7 +15,7 @@ function AddCourses({ modalOpen, setModalOpen }) {
         setModalOpen(false);
         axios
           .post(
-            "https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/course",
+            apiURL,
             values
           )
           .then((response) => {

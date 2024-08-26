@@ -6,10 +6,10 @@ import LectureDetail from "./LectureDetail";
 
 export default function Lectures() {
   const { tableProps } = useTable({
-    resource: "api/v0/lecture",
+    resource: "lecture",
     queryOptions: {
       onSuccess: (data) => {
-        console.log(data);
+        // console.log(data);
       },
     },
   });

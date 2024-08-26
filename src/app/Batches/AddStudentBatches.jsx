@@ -6,7 +6,7 @@ import { Form, Input } from "antd";
 function AddStudentBatches({ modalOpen, setModalOpen, batchId }) {
   const [form] = Form.useForm();
   const [studentIds, setStudentIds] = useState([]);
-  const postUrl = `https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/batch/${batchId}/students`;
+  const postUrl = process.env.REACT_APP_DB_URL+"/batch/"+batchId+"/students";
 
   const handleInputChange = (e) => {
     const value = e.target.value;

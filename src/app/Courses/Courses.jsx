@@ -8,7 +8,7 @@ import CourseBatchList from "./CourseBatchList";
 
 export default function Courses() {
   const { tableProps } = useTable({
-    resource: "api/v0/course",
+    resource: "course",
     queryOptions: {
       onSuccess: (data) => {
         console.log(data);

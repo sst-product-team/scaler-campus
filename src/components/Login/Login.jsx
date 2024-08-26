@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default function Login({ notify }) {
   const [form] = Form.useForm();
+  const apiURL = process.env.REACT_APP_DB_URL + "/auth/login";
 
   const loginUser = () => {
     form.validateFields().then((values) => {
@@ -14,7 +15,7 @@ export default function Login({ notify }) {
       };
       axios
         .post(
-          "https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/auth/login",
+          apiURL,
           loginData
         )
         .then((res) => {

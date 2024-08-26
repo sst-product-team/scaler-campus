@@ -5,7 +5,7 @@ import AddStudentBatches from "./AddStudentBatches";
 
 function BatchStudentList({ batch, modalOpen, setModalOpen }) {
   const { tableProps } = useTable({
-    resource: "api/v0/batch/" + batch.BatchId + "/students",
+    resource: "batch/" + batch.BatchId + "/students",
     queryOptions: {
       onSuccess: (data) => {
         console.log(data);
@@ -16,7 +16,7 @@ function BatchStudentList({ batch, modalOpen, setModalOpen }) {
   function handleAddStudentClick() {
     setAddStudentModal(true);
   }
-  const url = `api/v0/batch/${batch.BatchId}/students`;
+  const url = `batch/${batch.BatchId}/students`;
   let title = `Students of ${batch.Name}`;
   return (
     <Drawer

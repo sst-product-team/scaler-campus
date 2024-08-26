@@ -14,7 +14,7 @@ function EditBatch({ batch, modalOpen, setModalOpen }) {
     console.log("Updated values:", values);
     setModalOpen(false);
   };
-  const putUrl = `https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/batch/${batch.BatchId}`
+  const putUrl = process.env.REACT_APP_DB_URL+"/batch/"+batch.BatchId;
 
   const handleSubmit = () => {
     form

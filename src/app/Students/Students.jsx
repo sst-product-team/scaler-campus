@@ -12,9 +12,9 @@ import { useState } from "react";
 import StudentDetail from "./StudentDetail";
 import EditStudent from "./EditStudent";
 
-export default function Students({ stateChange }) {
+export default function Students({ stateChange, notify }) {
   const importProps = useImport({
-    resource: "api/v0/user",
+    resource: "user",
     mapData: (item) => {
       console.log(item);
       return {
@@ -26,9 +26,9 @@ export default function Students({ stateChange }) {
   });
 
   const { tableProps } = useTable({
-    resource: "api/v0/user",
+    resource: "user",
     queryOptions: {
-      onSuccess: (data) => {;
+      onSuccess: (data) => {
         console.log(data);
       },
     },

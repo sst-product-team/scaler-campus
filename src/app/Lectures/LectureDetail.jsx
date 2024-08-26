@@ -1,7 +1,13 @@
-import { DeleteButton, useTable } from "@refinedev/antd";
+import {
+  DeleteButton,
+  useTable,
+  ShowButton,
+  ListButton,
+} from "@refinedev/antd";
 import { Button, Drawer, Table } from "antd";
 import React, { useState } from "react";
 import AddWithIds from "../../components/AddWithIds";
+import { View } from "lucide-react";
 
 function formatDate(dateString) {
   if (!dateString) return "Never Logged In";
@@ -16,12 +22,12 @@ function formatDate(dateString) {
 }
 
 function LectureDetail({ lecture, drawerOpen, setDrawerOpen }) {
-  console.log("Lecture", lecture);
+  // console.log("Lecture", lecture);
   const { tableProps } = useTable({
-    resource: "api/v0/lecture/" + lecture.LectureId + "/courses",
+    resource: "lecture/" + lecture.LectureId + "/courses",
     queryOptions: {
       onSuccess: (data) => {
-        console.log(data);
+        console.log("ABC: ", data);
       },
     },
   });
@@ -31,7 +37,7 @@ function LectureDetail({ lecture, drawerOpen, setDrawerOpen }) {
     setaddCoursesModal(true);
   }
 
-  const url = `api/v0/lecture/${lecture.LectureId}/batches`;
+  const url = `lecture/${lecture.LectureId}/courses`;
 
   return (
     <Drawer
@@ -53,12 +59,12 @@ function LectureDetail({ lecture, drawerOpen, setDrawerOpen }) {
             <label className="block text-gray-500 font-bold">Name:</label>
             <p className="text-gray-900">{lecture.Name}</p>
           </div>
-          <div className="mb-4 flex flex-col">
+          {/* <div className="mb-4 flex flex-col">
             <label className="block text-gray-500 font-bold">
               Description:
             </label>
             <p className="text-gray-900">{lecture.Description}</p>
-          </div>
+          </div> */}
         </div>
         <div className="mb-4 flex justify-between">
           <div className="flex flex-col">
@@ -96,8 +102,13 @@ function LectureDetail({ lecture, drawerOpen, setDrawerOpen }) {
               <DeleteButton
                 size="small"
                 resource={url}
-                recordItemId={record.BatchId}
-              ></DeleteButton>
+                recordItemId={record.CourseId}
+                hideText={true}
+              >
+                {/* Remove Course */}
+              </DeleteButton>
+              {/* <ShowButton size="small">View Attendnace</ShowButton>
+              <ListButton size="small">View Students</ListButton> */}
             </div>
           )}
         />
@@ -116,7 +127,7 @@ function LectureDetail({ lecture, drawerOpen, setDrawerOpen }) {
           modalOpen={addCoursesModal}
           setModalOpen={setaddCoursesModal}
           title={"Add Courses"}
-          postUrl={`https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/lecture/${lecture.LectureId}/courses`}
+          postUrl={process.env.REACT_APP_DB_URL+"/lecture/"+lecture.LectureId+"/courses"}
           postParam={"courses"}
         />
       )}

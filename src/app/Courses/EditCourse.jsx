@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Form, Input } from "antd";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const layout = {
   labelCol: { span: 8 },
@@ -9,27 +10,26 @@ const layout = {
 
 function EditCourse({ course, modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
+  const apiURL = process.env.REACT_APP_DB_URL + "/course"+course.id;
 
   const onFinish = (values) => {
     console.log("Updated values:", values);
     setModalOpen(false);
   };
-  const putUrl = `https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/course/${course.id}`
 
   const handleSubmit = () => {
     form
       .validateFields()
       .then((values) => {
+        toast("Updating Course...", { type: "info" });
         console.log("Form data:", values);
         setModalOpen(false);
         axios
-          .put(
-            putUrl,
-            values
-          )
+          .put(apiURL, values)
           .then((response) => {
             console.log("Course Updated:", response.data);
             form.resetFields();
+            toast("Course Updated!", { type: "success" });
           })
           .catch((error) => {
             console.error("There was an error updating the Course!", error);

@@ -5,6 +5,7 @@ import { Form, Input } from "antd";
 
 function AddStudent({ modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
+  const apiURL = process.env.REACT_APP_DB_URL + "/user";
 
   const handleSubmit = () => {
     form.validateFields()
@@ -13,7 +14,7 @@ function AddStudent({ modalOpen, setModalOpen }) {
         setModalOpen(false);
         axios
           .post(
-            "https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/user",
+            apiURL,
             values
           )
           .then((response) => {

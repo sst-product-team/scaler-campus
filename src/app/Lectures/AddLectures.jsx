@@ -3,9 +3,9 @@ import axios from "axios";
 import Modal from "antd/es/modal/Modal";
 import { Form, Input, DatePicker, Select } from "antd";
 
-
 function AddLecture({ modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
+  const apiURL = process.env.REACT_APP_DB_URL+"/lecture";
 
   const handleSubmit = () => {
     form
@@ -13,7 +13,7 @@ function AddLecture({ modalOpen, setModalOpen }) {
       .then((values) => {
         const formattedValues = {
           ...values,
-          minAttendance : parseInt(values.minAttendance),
+          minAttendance: parseInt(values.minAttendance),
           startTime: values.startTime.toISOString(),
           endTime: values.endTime.toISOString(),
         };
@@ -23,7 +23,7 @@ function AddLecture({ modalOpen, setModalOpen }) {
 
         axios
           .post(
-            "https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/lecture",
+            apiURL,
             formattedValues
           )
           .then((response) => {
@@ -54,14 +54,21 @@ function AddLecture({ modalOpen, setModalOpen }) {
         <Form.Item
           label="Name"
           name="Name"
-          rules={[{ required: true, message: "Please input the Lecture's name!" }]}
+          rules={[
+            { required: true, message: "Please input the Lecture's name!" },
+          ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="Description"
           name="Description"
-          rules={[{ required: true, message: "Please input the Lecture's description!" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input the Lecture's description!",
+            },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -82,17 +89,33 @@ function AddLecture({ modalOpen, setModalOpen }) {
         <Form.Item
           label="Attendance Type"
           name="attendanceType"
-          rules={[{ required: true, message: "Please select the attendance type!" }]}
+          rules={[
+            { required: true, message: "Please select the attendance type!" },
+          ]}
         >
           <Select>
-            <Select.Option value="mandatory">Mandatory</Select.Option>
-            <Select.Option value="optional">Optional</Select.Option>
+            <Select.Option value="Bluetooth Attendance">
+              Bluetooth Attendance
+            </Select.Option>
+            <Select.Option value="GPS Attendance">GPS Attendance</Select.Option>
+            <Select.Option value="Mannual Attendance">
+              Mannual Attendance
+            </Select.Option>
+            <Select.Option value="Self Attendance/ Optional Attendance">
+              Optional
+            </Select.Option>
+            <Select.Option value="Not Required">Not Required</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item
           label="Minimum Attendance (%)"
           name="minAttendance"
-          rules={[{ required: true, message: "Please input the minimum attendance percentage!" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input the minimum attendance percentage!",
+            },
+          ]}
         >
           <Input type="number" min={0} max={100} />
         </Form.Item>

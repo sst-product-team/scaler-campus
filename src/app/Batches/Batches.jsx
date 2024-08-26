@@ -11,7 +11,7 @@ import EditBatch from "./EditBatch";
 
 export default function Batches() {
   const { tableProps } = useTable({
-    resource: "api/v0/batch",
+    resource: "batch",
     queryOptions: {
       onSuccess: (data) => {
         console.log(data);

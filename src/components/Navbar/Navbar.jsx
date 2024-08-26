@@ -97,7 +97,7 @@ export default function Navbar({ state, stateChange }) {
             </div>
           </div>
 
-          <div className="Section">
+          {/* <div className="Section">
             <div className="sectionHeader">Advance Settings</div>
             <div className="Management">
               <div
@@ -136,7 +136,7 @@ export default function Navbar({ state, stateChange }) {
                 Settings
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="Section">
             <div className="sectionHeader">Account and Profile</div>

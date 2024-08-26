@@ -16,13 +16,48 @@ import Login from "./components/Login/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+console.log("HI", process.env.REACT_APP_DB_URL);
+
 // Custom data provider to handle API response structure
-const customDataProvider = dataProvider(
-  "https://8hbbktpk-5001.inc1.devtunnels.ms"
-);
+const customDataProvider = dataProvider(process.env.REACT_APP_DB_URL);
+
+// Mock live provider implementation
+const liveProvider = {
+  subscribe: ({ channel, params: { ids }, types, callback, meta }) => {
+    console.log(`Subscribed to channel: ${channel} with ids: ${ids}`);
+    // Simulate receiving data
+    const interval = setInterval(() => {
+      callback({
+        type: types[0],
+        payload: "Sample data",
+        date: new Date(),
+        meta,
+      });
+    }, 2000); // simulate data every 5 seconds
+
+    return { channel, ids, types, callback, meta, interval }; // Return a subscription object
+  },
+  unsubscribe: (subscription) => {
+    clearInterval(subscription.interval);
+    console.log(`Unsubscribed from channel: ${subscription.channel}`);
+  },
+  publish: ({ channel, type, payload, date, meta }) => {
+    console.log(
+      `Published to channel: ${channel}, type: ${type}, payload: ${payload}`
+    );
+  },
+};
 
 function App() {
-  const [experience, setExperience] = useState("students");
+  const [experience, setExperienceValue] = useState(
+    JSON.parse(localStorage.getItem("experience")) || "lectures"
+  );
+
+  const setExperience = (value) => {
+    setExperienceValue(value);
+    localStorage.setItem("experience", JSON.stringify(value));
+  };
+
   const notify = (message) => toast(message);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
@@ -32,17 +67,19 @@ function App() {
     if (user) {
       notify("Welcome to Scaler Campus Teacher");
     }
-  });
+  }, [user]);
 
   return (
     <ConfigProvider theme={RefineThemes.Blue}>
       <AntdApp>
         <Refine
+          liveProvider={liveProvider}
+          options={{ liveMode: "auto" }}
           dataProvider={customDataProvider}
           resources={[
             {
-              name: "api/v0/user",
-              route: "api/v0/user",
+              name: "user",
+              route: "user",
             },
           ]}
         >
@@ -68,7 +105,7 @@ function App() {
                   {experience === "lectures" && <Lectures />}
                   {experience === "courses" && <Courses />}
                   {experience === "students" && (
-                    <Students stateChange={setExperience} />
+                    <Students stateChange={setExperience} notify={notify} />
                   )}
                   {experience === "batches" && <Batches />}
                   {experience === "forms" && <StudentForms />}

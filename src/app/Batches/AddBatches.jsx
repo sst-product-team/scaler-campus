@@ -5,6 +5,7 @@ import { Form, Input } from "antd";
 
 function AddBatches({ modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
+  const apiURL = process.env.REACT_APP_DB_URL + "/batch";
 
   const handleSubmit = () => {
     form
@@ -14,7 +15,7 @@ function AddBatches({ modalOpen, setModalOpen }) {
         setModalOpen(false);
         axios
           .post(
-            "https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/batch",
+            apiURL,
             values
           )
           .then((response) => {

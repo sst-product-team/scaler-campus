@@ -5,7 +5,7 @@ import AddWithIds from "../../components/AddWithIds";
 
 function CourseBatchList({ course, modalOpen, setModalOpen }) {
   const { tableProps } = useTable({
-    resource: "api/v0/course/" + course.id + "/batches",
+    resource: "course/" + course.id + "/batches",
     queryOptions: {
       onSuccess: (data) => {
         console.log(data);
@@ -16,7 +16,7 @@ function CourseBatchList({ course, modalOpen, setModalOpen }) {
   function handleAddStudentClick() {
     setaddBatchesModal(true);
   }
-  const url = `api/v0/course/${course.id}/batches`;
+  const url = `course/${course.id}/batches`;
   let title = `Batches of ${course.Name}`;
   return (
     <Drawer
@@ -61,6 +61,7 @@ function CourseBatchList({ course, modalOpen, setModalOpen }) {
           setModalOpen={setaddBatchesModal}
           title={"Add Batches"}
           postParam={"batches"}
+          postUrl={process.env.REACT_APP_DB_URL + "/course/" + course.id + "/batches"}
         ></AddWithIds>
       )}
     </Drawer>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Form, Input, Switch, Button, DatePicker } from "antd";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -9,17 +9,19 @@ const layout = {
 
 function EditStudent({ user, modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
-  const putUrl = `https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/user/${user.UserId}`;
+  const apiURL = process.env.REACT_APP_DB_URL + "/user/" + user.UserId;
   const handleSave = () => {
     form
       .validateFields()
       .then((values) => {
+        toast("Updating Students");
         console.log("Updated values:", values);
         setModalOpen(false);
         axios
-          .put(putUrl, values)
+          .put(apiURL, values)
           .then((response) => {
             console.log("Student updated:", response.data);
+            toast("Student updated successfully!");
           })
           .catch((error) => {
             console.error("There was an error updating the student!", error);
@@ -68,7 +70,7 @@ function EditStudent({ user, modalOpen, setModalOpen }) {
         <Form.Item
           label="Login Allowed"
           name="loginAllowed"
-          valuePropName = {user.LoginAllowed ?  "checked" : "unchecked"}
+          valuePropName={user.LoginAllowed ? "checked" : "unchecked"}
         >
           <Switch />
         </Form.Item>
