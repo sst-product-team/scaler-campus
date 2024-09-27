@@ -1,1 +1,0 @@
-const project = "Scaler Campus";
