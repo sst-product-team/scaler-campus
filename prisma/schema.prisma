@@ -139,3 +139,15 @@ model Questions {
   CreatedOn   DateTime @default(now()) @map("created_on") @db.Timestamp(6)
   UpdatedOn   DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
 }
+
+model SSOProvider {
+  SSOProviderId Int      @id @default(autoincrement()) @map("sso_provider_id")
+  Name          String   @map("name")
+  Description   String   @map("description")
+  HomeUrl       String   @map("home_url")
+  PrivacyPolicy String   @map("privacy_policy")
+  ProviderKey   String   @map("provider_key")
+  AuthRedirectUrl String @map("auth_redirect_url")
+  CreatedOn     DateTime @default(now()) @map("created_on") @db.Timestamp(6)
+  UpdatedOn     DateTime @updatedAt @map("updated_on") @db.Timestamp(6)
+}
