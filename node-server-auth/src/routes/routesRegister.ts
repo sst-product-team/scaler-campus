@@ -1,9 +1,9 @@
 import { Application } from "express";
-import UserRoute from "../routes/user.route";
-import AuthRoute from "../routes/auth.route";
-import BatchRoute from "../routes/batch.route";
-import CourseRoute from "../routes/course.route";
-import LecureRoute from "../routes/lecture.route";
+import UserRoute from "./user.route";
+import AuthRoute from "./auth.route";
+import BatchRoute from "./batch.route";
+import CourseRoute from "./course.route";
+import LecureRoute from "./lecture.route";
 import HelloRoute from "./hello.route";
 
 class RoutesRegister {
