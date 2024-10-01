@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import { PrismaClient } from "@prisma/client";
 import RoutesRegister from "../routes/routesRegister";
 import cors from "cors";
+import connectToDB from "../utils/DbConnect";
 
 class App {
   public app: Application;
@@ -14,6 +15,7 @@ class App {
 
   async config(): Promise<void> {
     await this.prisma.$connect();
+    connectToDB();
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
