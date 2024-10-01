@@ -1,8 +1,9 @@
 import "./Navbar.css";
 import React from "react";
 import Logo from "../../assets/ProductTeamLogo.svg";
+import { Link } from "react-router-dom";
 
-export default function Navbar({ state, stateChange }) {
+export default function Navbar() {
   return (
     <div className="navContainer flex-1 overflow-scroll">
       <div className="flex flex-col justify-between">
@@ -13,12 +14,7 @@ export default function Navbar({ state, stateChange }) {
               Core Skills Curriculum and Classes
             </div>
             <div className="Management">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("lectures");
-                }}
-              >
+              <Link className="Header" to="/lectures">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height={22}
@@ -28,16 +24,11 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M64 96c0-35.3 28.7-64 64-64H512c35.3 0 64 28.7 64 64V352H512V96H128V352H64V96zM0 403.2C0 392.6 8.6 384 19.2 384H620.8c10.6 0 19.2 8.6 19.2 19.2c0 42.4-34.4 76.8-76.8 76.8H76.8C34.4 480 0 445.6 0 403.2zM281 209l-31 31 31 31c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-48-48c-9.4-9.4-9.4-24.6 0-33.9l48-48c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM393 175l48 48c9.4 9.4 9.4 24.6 0 33.9l-48 48c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l31-31-31-31c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0z" />
                 </svg>
                 Lectures
-              </div>
+              </Link>
             </div>
 
             <div className="Management">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("courses");
-                }}
-              >
+              <Link className="Header" to="/courses">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height={22}
@@ -47,19 +38,14 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M315.4 15.5C309.7 5.9 299.2 0 288 0s-21.7 5.9-27.4 15.5l-96 160c-5.9 9.9-6.1 22.2-.4 32.2s16.3 16.2 27.8 16.2H384c11.5 0 22.2-6.2 27.8-16.2s5.5-22.3-.4-32.2l-96-160zM288 312V456c0 22.1 17.9 40 40 40H472c22.1 0 40-17.9 40-40V312c0-22.1-17.9-40-40-40H328c-22.1 0-40 17.9-40 40zM128 512a128 128 0 1 0 0-256 128 128 0 1 0 0 256z" />
                 </svg>
                 Courses
-              </div>
+              </Link>
             </div>
           </div>
 
           <div className="Section">
             <div className="sectionHeader">Student Profiles and Batches</div>
             <div className="Management">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("students");
-                }}
-              >
+              <Link className="Header" to="/students">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height={22}
@@ -69,16 +55,11 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M219.3 .5c3.1-.6 6.3-.6 9.4 0l200 40C439.9 42.7 448 52.6 448 64s-8.1 21.3-19.3 23.5L352 102.9V160c0 70.7-57.3 128-128 128s-128-57.3-128-128V102.9L48 93.3v65.1l15.7 78.4c.9 4.7-.3 9.6-3.3 13.3s-7.6 5.9-12.4 5.9H16c-4.8 0-9.3-2.1-12.4-5.9s-4.3-8.6-3.3-13.3L16 158.4V86.6C6.5 83.3 0 74.3 0 64C0 52.6 8.1 42.7 19.3 40.5l200-40zM111.9 327.7c10.5-3.4 21.8 .4 29.4 8.5l71 75.5c6.3 6.7 17 6.7 23.3 0l71-75.5c7.6-8.1 18.9-11.9 29.4-8.5C401 348.6 448 409.4 448 481.3c0 17-13.8 30.7-30.7 30.7H30.7C13.8 512 0 498.2 0 481.3c0-71.9 47-132.7 111.9-153.6z" />
                 </svg>
                 Students
-              </div>
+              </Link>
             </div>
 
             <div className="Management">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("batches");
-                }}
-              >
+              <Link className="Header" to="/batches">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height={22}
@@ -88,19 +69,14 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M264.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 149.8C37.4 145.8 32 137.3 32 128s5.4-17.9 13.9-21.8L264.5 5.2zM476.9 209.6l53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 277.8C37.4 273.8 32 265.3 32 256s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0l152-70.2zm-152 198.2l152-70.2 53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 405.8C37.4 401.8 32 393.3 32 384s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0z" />
                 </svg>
                 Batches
-              </div>
+              </Link>
             </div>
           </div>
 
           <div className="Section">
             <div className="sectionHeader">Advance Settings</div>
             <div className="Management">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("forms");
-                }}
-              >
+              <Link className="Header" to="/forms">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 576 512"
@@ -110,16 +86,11 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
                 </svg>
                 Forms and Feedback
-              </div>
+              </Link>
             </div>
 
             <div className="PollingApp">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("poll");
-                }}
-              >
+              <Link className="Header" to="/poll">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 576 512"
@@ -129,16 +100,11 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M96 80c0-26.5 21.5-48 48-48l288 0c26.5 0 48 21.5 48 48l0 304L96 384 96 80zm313 47c-9.4-9.4-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L409 161c9.4-9.4 9.4-24.6 0-33.9zM0 336c0-26.5 21.5-48 48-48l16 0 0 128 448 0 0-128 16 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48L48 480c-26.5 0-48-21.5-48-48l0-96z" />
                 </svg>
                 Voting and Polling
-              </div>
+              </Link>
             </div>
 
             <div className="Management">
-              <div
-                className="Header"
-                onClick={() => {
-                  stateChange("settings");
-                }}
-              >
+              <Link className="Header" to="/settings">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height={22}
@@ -148,7 +114,7 @@ export default function Navbar({ state, stateChange }) {
                   <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z" />
                 </svg>
                 Settings
-              </div>
+              </Link>
             </div>
           </div>
 
