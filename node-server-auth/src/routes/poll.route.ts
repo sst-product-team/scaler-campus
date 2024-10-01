@@ -3,13 +3,17 @@ import PollController from "../controllers/poll.controller";
 
 class PollRoute {
   public router: Router;
+  public pollcontroller: PollController;
   constructor() {
     this.router = Router();
-    this.init();
+    this.pollcontroller = new PollController();
+    this.routes();
   }
 
-  init() {
-    this.router.post("", new PollController().createPoll);
+  routes() {
+    this.router.post("", this.pollcontroller.createPoll);
+    this.router.post("/vote", this.pollcontroller.voteOnPoll);
+    this.router.get("/:pollId", this.pollcontroller.getResults);
   }
 }
 
