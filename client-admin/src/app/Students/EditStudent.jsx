@@ -9,7 +9,7 @@ const layout = {
 
 function EditStudent({ user, modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
-  const putUrl = `https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/user/${user.UserId}`;
+  const putUrl = `${process.env.REACT_APP_API_URL}/api/v0/user/${user.UserId}`;
   const handleSave = () => {
     form
       .validateFields()
@@ -68,7 +68,7 @@ function EditStudent({ user, modalOpen, setModalOpen }) {
         <Form.Item
           label="Login Allowed"
           name="loginAllowed"
-          valuePropName = {user.LoginAllowed ?  "checked" : "unchecked"}
+          valuePropName={user.LoginAllowed ? "checked" : "unchecked"}
         >
           <Switch />
         </Form.Item>

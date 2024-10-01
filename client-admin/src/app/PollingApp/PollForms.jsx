@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import CreateForm from "./CreateForm";
+import CreatePoll from "./CreatePoll";
 
-export default function StudentForms() {
+function PollForms() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -15,14 +15,16 @@ export default function StudentForms() {
   return (
     <div className="Students">
       <div className="topNavActions">
-        <div className="info">Student Forms</div>
+        <div className="info">Polling and Voting</div>
         <div className="actions">
           <button className="butn" onClick={handleOpenModal}>
-            Create Form
+            Create Poll
           </button>
-          <CreateForm modalOpen={modalOpen} setModalOpen={setModalOpen} />
+          <CreatePoll modalOpen={modalOpen} setModalOpen={setModalOpen} />
         </div>
       </div>
     </div>
   );
 }
+
+export default PollForms;

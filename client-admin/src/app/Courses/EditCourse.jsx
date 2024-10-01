@@ -14,7 +14,7 @@ function EditCourse({ course, modalOpen, setModalOpen }) {
     console.log("Updated values:", values);
     setModalOpen(false);
   };
-  const putUrl = `https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/course/${course.id}`
+  const putUrl = `${process.env.REACT_APP_API_URL}/api/v0/course/${course.id}`
 
   const handleSubmit = () => {
     form

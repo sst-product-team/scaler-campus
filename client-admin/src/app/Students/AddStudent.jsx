@@ -7,15 +7,13 @@ function AddStudent({ modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
-    form.validateFields()
+    form
+      .validateFields()
       .then((values) => {
         console.log("Form data:", values);
         setModalOpen(false);
         axios
-          .post(
-            "https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/user",
-            values
-          )
+          .post(`${process.env.REACT_APP_API_URL}/api/v0/user`, values)
           .then((response) => {
             console.log("Student added:", response.data);
             form.resetFields();
@@ -44,21 +42,30 @@ function AddStudent({ modalOpen, setModalOpen }) {
         <Form.Item
           label="Name"
           name="name"
-          rules={[{ required: true, message: "Please input the student's name!" }]}
+          rules={[
+            { required: true, message: "Please input the student's name!" },
+          ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="Email"
           name="email"
-          rules={[{ required: true, message: "Please input the student's email!" }]}
+          rules={[
+            { required: true, message: "Please input the student's email!" },
+          ]}
         >
           <Input type="email" />
         </Form.Item>
         <Form.Item
           label="Phone Number"
           name="phone"
-          rules={[{ required: true, message: "Please input the student's phone number!" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input the student's phone number!",
+            },
+          ]}
         >
           <Input type="tel" />
         </Form.Item>

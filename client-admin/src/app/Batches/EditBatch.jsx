@@ -14,7 +14,7 @@ function EditBatch({ batch, modalOpen, setModalOpen }) {
     console.log("Updated values:", values);
     setModalOpen(false);
   };
-  const putUrl = `https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/batch/${batch.BatchId}`
+  const putUrl = `${process.env.REACT_APP_API_URL}/api/v0/batch/${batch.BatchId}`;
 
   const handleSubmit = () => {
     form
@@ -23,10 +23,7 @@ function EditBatch({ batch, modalOpen, setModalOpen }) {
         console.log("Form data:", values);
         setModalOpen(false);
         axios
-          .put(
-            putUrl,
-            values
-          )
+          .put(putUrl, values)
           .then((response) => {
             console.log("Batch Updated:", response.data);
             form.resetFields();

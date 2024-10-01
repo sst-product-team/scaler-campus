@@ -13,10 +13,7 @@ function AddCourses({ modalOpen, setModalOpen }) {
         console.log("Form data:", values);
         setModalOpen(false);
         axios
-          .post(
-            "https://8hbbktpk-5001.inc1.devtunnels.ms/api/v0/course",
-            values
-          )
+          .post(`${process.env.REACT_APP_API_URL}/api/v0/course`, values)
           .then((response) => {
             console.log("Course added:", response.data);
             form.resetFields();

@@ -13,10 +13,7 @@ function AddBatches({ modalOpen, setModalOpen }) {
         console.log("Form data:", values);
         setModalOpen(false);
         axios
-          .post(
-            "https://campus-auth-backend-node-adxvh.ondigitalocean.app/api/v0/batch",
-            values
-          )
+          .post(`${process.env.REACT_APP_API_URL}/api/v0/batch`, values)
           .then((response) => {
             console.log("Batch added:", response.data);
             form.resetFields();

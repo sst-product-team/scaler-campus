@@ -5,6 +5,7 @@ import BatchRoute from "./batch.route";
 import CourseRoute from "./course.route";
 import LecureRoute from "./lecture.route";
 import HelloRoute from "./hello.route";
+import PollRoute from "./poll.route";
 
 class RoutesRegister {
   private app: Application;
@@ -24,7 +25,9 @@ class RoutesRegister {
     this.app.use("/api/v0/lecture", new LecureRoute().router);
   }
 
-  private registerV1() {}
+  private registerV1() {
+    this.app.use("/api/v1/poll", new PollRoute().router);
+  }
 }
 
 export default RoutesRegister;
