@@ -18,6 +18,14 @@ class PollController {
     return optionT;
   }
 
+  async getAllPolls(req: Request, res: Response) {
+    const response = await PollModel.find();
+    if (!response) {
+      return res.status(400).json({ message: "No polls were found" });
+    }
+    return res.status(200).json(response);
+  }
+
   async createPoll(req: Request, res: Response) {
     const { question } = req.body;
     if (!question) {
