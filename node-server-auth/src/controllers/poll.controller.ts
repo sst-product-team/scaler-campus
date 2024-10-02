@@ -24,6 +24,8 @@ class PollController {
       return res.status(400).json({ message: "Question is required" });
     }
     delete req.body.question;
+    const { acceptingResponses } = req.body;
+    delete req.body.acceptingResponses;
 
     let options: string[] = Object.values(req.body);
     if (!options) {
@@ -39,6 +41,7 @@ class PollController {
     const newPoll = new PollModel({
       question: question,
       options: OptionT,
+      acceptingResponses: acceptingResponses,
     });
 
     try {
