@@ -2,7 +2,21 @@ import { Request, Response } from "express";
 import PollModel, { OptionType } from "../models/Poll";
 
 class PollController {
-  constructor() {}
+  constructor() {
+    this.createPoll = this.createPoll.bind(this);
+    this.voteOnPoll = this.voteOnPoll.bind(this);
+    this.getResults = this.getResults.bind(this);
+  }
+
+  private getOptionType(options: string[]) {
+    const optionT: OptionType = {};
+
+    for (let option in options) {
+      optionT[options[option]] = [];
+    }
+
+    return optionT;
+  }
 
   async createPoll(req: Request, res: Response) {
     const { question } = req.body;
@@ -10,14 +24,21 @@ class PollController {
       return res.status(400).json({ message: "Question is required" });
     }
     delete req.body.question;
-    const options: OptionType = req.body;
+
+    let options: string[] = Object.values(req.body);
     if (!options) {
       return res.status(400).json({ message: "Options are required" });
     }
 
+    const OptionT: OptionType = this.getOptionType(options);
+
+    console.log("====================================");
+    console.log(OptionT);
+    console.log("====================================");
+
     const newPoll = new PollModel({
-      question,
-      options,
+      question: question,
+      options: OptionT,
     });
 
     try {
@@ -49,6 +70,13 @@ class PollController {
       }
 
       const option = req.body.option;
+      const user = req.body.user;
+
+      if (!user || !option) {
+        return res.status(400).json({ message: "Option and user required." });
+      }
+
+      // TODO: validate user
 
       console.log(poll.toObject().options[option]);
 
@@ -60,7 +88,11 @@ class PollController {
 
       await PollModel.updateOne(
         { _id: pollId },
-        { $set: { [`options.${option}`]: (poll.options[option] || 0) + 1 } }
+        {
+          $set: {
+            [`options.${option}`]: (poll.options[option] || []).push(user),
+          },
+        }
       );
 
       return res.status(200).json({ message: `Vote for "${option}" recorded` });

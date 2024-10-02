@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-export interface OptionType {
-  [option: string]: number;
-}
+export type OptionType = {
+  [option: string]: string[];
+};
 
 export interface PollQuestion extends Document {
   question: string;
@@ -18,6 +18,10 @@ const PollSchema: Schema = new Schema({
   options: {
     type: Object,
     required: true,
+  },
+  acceptingResponses: {
+    type: Boolean,
+    required: true
   },
 });
 

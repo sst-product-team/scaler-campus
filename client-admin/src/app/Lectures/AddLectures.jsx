@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Modal from "antd/es/modal/Modal";
 import { Form, Input, DatePicker, Select } from "antd";
-import MultiSelect from "../../components/MultiSelect";
+// import MultiSelect from "../../components/MultiSelect";
 
 function AddLecture({ modalOpen, setModalOpen }) {
   const [form] = Form.useForm();
@@ -113,7 +113,7 @@ function AddLecture({ modalOpen, setModalOpen }) {
             <Select.Option value="optional">Optional</Select.Option>
           </Select>
         </Form.Item>
-        <MultiSelect />
+        {/* <MultiSelect /> */}
         <Form.Item
           label="Minimum Attendance (%)"
           name="minimumAttendance"
