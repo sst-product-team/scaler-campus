@@ -11,6 +11,9 @@ import AddStudent from "./AddStudent";
 import { useState } from "react";
 import StudentDetail from "./StudentDetail";
 import EditStudent from "./EditStudent";
+import useScope from "../../hooks/useScope";
+import { useLocation } from "react-router-dom";
+import AccessNotFound from "../../components/AccessNotFound";
 
 export default function Students({ stateChange }) {
   const importProps = useImport({
@@ -28,7 +31,7 @@ export default function Students({ stateChange }) {
   const { tableProps } = useTable({
     resource: "api/v0/user",
     queryOptions: {
-      onSuccess: (data) => {;
+      onSuccess: (data) => {
         console.log(data);
       },
     },
@@ -38,6 +41,8 @@ export default function Students({ stateChange }) {
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const location = useLocation();
+  const [, inScope] = useScope(location.pathname);
 
   const handleDetailClick = (record) => {
     setSelectedStudent(record);
@@ -48,104 +53,112 @@ export default function Students({ stateChange }) {
     setEditModalOpen(true);
   };
 
-  return (
-    <div className="Students">
-      <div className="topNavActions">
-        <div className="info">Manage Students</div>
-        <div className="actions">
-          <ImportButton {...importProps} />
-          <Button
-            className="refine-create-button"
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            Add Student
-          </Button>
-          <AddStudent
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-          ></AddStudent>
+  if (inScope) {
+    return (
+      <div className="Students">
+        <div className="topNavActions">
+          <div className="info">Manage Students</div>
+          <div className="actions">
+            <ImportButton {...importProps} />
+            <Button
+              className="refine-create-button"
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            >
+              Add Student
+            </Button>
+            <AddStudent
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+            ></AddStudent>
+          </div>
         </div>
-      </div>
-      <div className="studentDisplay">
-        <Table {...tableProps} rowKey="UserId">
-          <Table.Column dataIndex="UserId" title="ID" />
-          <Table.Column dataIndex="Name" title="Name" sorter />
-          <Table.Column dataIndex="Email" title="Email" />
-          <Table.Column dataIndex="PhoneNumber" title="Phone Number" />
-          <Table.Column
-            dataIndex="LoginAllowed"
-            title="Login Allowed"
-            className=""
-            render={(value) =>
-              value ? (
-                <div
-                  style={{
-                    width: 20,
-                    height: 20,
-                    background: "#5CD83B",
-                    borderRadius: 100,
-                    margin: "0 50%",
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: 20,
-                    height: 20,
-                    background: "#ed717a",
-                    borderRadius: 100,
-                    margin: "0 50%",
-                  }}
-                />
-              )
-            }
-          />
-          <Table.Column
-            dataIndex="LastLogin"
-            title="Last Login"
-            render={(text) => text || "Never Logged In"}
-          />
-          <Table.Column
-            title="Actions"
-            render={(text, record) => (
-              <div className="actions">
-                <EditButton
-                  hideText={true}
-                  onClick={() => {
-                    handleEditClick(record);
-                    console.log("Edit", record);
-                  }}
-                />
-                <ShowButton
-                  hideText={true}
-                  onClick={() => {
-                    handleDetailClick(record);
-                    console.log("Show", record);
-                  }}
-                />
-              </div>
-            )}
-          />
-        </Table>
-      </div>
+        <div className="studentDisplay">
+          <Table {...tableProps} rowKey="UserId">
+            <Table.Column dataIndex="UserId" title="ID" />
+            <Table.Column dataIndex="Name" title="Name" sorter />
+            <Table.Column dataIndex="Email" title="Email" />
+            <Table.Column dataIndex="PhoneNumber" title="Phone Number" />
+            <Table.Column
+              dataIndex="LoginAllowed"
+              title="Login Allowed"
+              className=""
+              render={(value) =>
+                value ? (
+                  <div
+                    style={{
+                      width: 20,
+                      height: 20,
+                      background: "#5CD83B",
+                      borderRadius: 100,
+                      margin: "0 50%",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: 20,
+                      height: 20,
+                      background: "#ed717a",
+                      borderRadius: 100,
+                      margin: "0 50%",
+                    }}
+                  />
+                )
+              }
+            />
+            <Table.Column
+              dataIndex="LastLogin"
+              title="Last Login"
+              render={(text) => text || "Never Logged In"}
+            />
+            <Table.Column
+              title="Actions"
+              render={(text, record) => (
+                <div className="actions">
+                  <EditButton
+                    hideText={true}
+                    onClick={() => {
+                      handleEditClick(record);
+                      console.log("Edit", record);
+                    }}
+                  />
+                  <ShowButton
+                    hideText={true}
+                    onClick={() => {
+                      handleDetailClick(record);
+                      console.log("Show", record);
+                    }}
+                  />
+                </div>
+              )}
+            />
+          </Table>
+        </div>
 
-      {detailModalOpen && (
-        <StudentDetail
-          user={selectedStudent}
-          modalOpen={detailModalOpen}
-          setModalOpen={setDetailModalOpen}
-        />
-      )}
+        {detailModalOpen && (
+          <StudentDetail
+            user={selectedStudent}
+            modalOpen={detailModalOpen}
+            setModalOpen={setDetailModalOpen}
+          />
+        )}
 
-      {editModalOpen && (
-        <EditStudent
-          user={selectedStudent}
-          modalOpen={editModalOpen}
-          setModalOpen={setEditModalOpen}
-        />
-      )}
-    </div>
-  );
+        {editModalOpen && (
+          <EditStudent
+            user={selectedStudent}
+            modalOpen={editModalOpen}
+            setModalOpen={setEditModalOpen}
+          />
+        )}
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <AccessNotFound />
+      </>
+    );
+  }
 }
