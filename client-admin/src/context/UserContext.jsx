@@ -8,7 +8,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     username: "anonymous",
-    scope: ["/app-code"],
+    scope: ["/app-code", "/poll"],
   });
 
   return (
