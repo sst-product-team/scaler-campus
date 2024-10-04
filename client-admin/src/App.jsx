@@ -19,6 +19,9 @@ import { Refine } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
 import { ToastContainer } from "react-toastify";
 import Vote from "./app/PollingApp/Vote";
+import AppCode from "./app/AppCode";
+import { UserProvider } from "./context/UserContext";
+import useScope from "./hooks/useScope";
 
 // Custom data provider to handle API response structure
 const customDataProvider = dataProvider(`${process.env.REACT_APP_API_URL}`);
@@ -27,7 +30,9 @@ function Layout() {
   const location = useLocation();
 
   // Hide Navbar on /poll/:pollId
-  const hideNavbar = location.pathname.startsWith("/poll/");
+  const hideNavbar =
+    location.pathname.startsWith("/poll/") ||
+    location.pathname.startsWith("/app-code");
 
   return (
     <div className="App flex">
@@ -42,6 +47,7 @@ function Layout() {
           <Route path="/forms" element={<StudentForms />} />
           <Route path="/poll" element={<PollForms />} />
           <Route path="/poll/:pollId" element={<Vote />} />
+          <Route path="/app-code" element={<AppCode />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
@@ -52,23 +58,25 @@ function Layout() {
 
 function App() {
   return (
-    <ConfigProvider theme={RefineThemes.Blue}>
-      <AntdApp>
-        <Refine
-          dataProvider={customDataProvider}
-          resources={[
-            {
-              name: "api/v0/user",
-              route: "api/v0/user",
-            },
-          ]}
-        >
-          <Router>
-            <Layout />
-          </Router>
-        </Refine>
-      </AntdApp>
-    </ConfigProvider>
+    <UserProvider>
+      <ConfigProvider theme={RefineThemes.Blue}>
+        <AntdApp>
+          <Refine
+            dataProvider={customDataProvider}
+            resources={[
+              {
+                name: "api/v0/user",
+                route: "api/v0/user",
+              },
+            ]}
+          >
+            <Router>
+              <Layout />
+            </Router>
+          </Refine>
+        </AntdApp>
+      </ConfigProvider>
+    </UserProvider>
   );
 }
 

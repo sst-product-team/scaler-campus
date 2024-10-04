@@ -5,6 +5,9 @@ import { useState } from "react";
 import AddCourses from "./AddCourses";
 import EditCourse from "./EditCourse";
 import CourseBatchList from "./CourseBatchList";
+import { useLocation } from "react-router-dom";
+import AccessNotFound from "../../components/AccessNotFound";
+import useScope from "../../hooks/useScope";
 
 export default function Courses() {
   const { tableProps } = useTable({
@@ -20,6 +23,8 @@ export default function Courses() {
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const location = useLocation();
+  const [, inScope] = useScope(location.pathname);
 
   const handleDetailClick = (record) => {
     setSelectedCourse(record);
@@ -30,68 +35,71 @@ export default function Courses() {
     setEditModalOpen(true);
   };
 
-  return (
-    <div className="Students">
-      <div className="topNavActions">
-        <div className="info">Manage Coursees</div>
-        <div className="actions">
-          <Button
-            className="refine-create-button"
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            Add Course
-          </Button>
-          <AddCourses
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-          ></AddCourses>
+  if (inScope) {
+    return (
+      <div className="Students">
+        <div className="topNavActions">
+          <div className="info">Manage Coursees</div>
+          <div className="actions">
+            <Button
+              className="refine-create-button"
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            >
+              Add Course
+            </Button>
+            <AddCourses
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+            ></AddCourses>
+          </div>
         </div>
-      </div>
-      <div className="studentDisplay">
-        <Table {...tableProps} rowKey="id">
-          <Table.Column dataIndex="id" title="ID" />
-          <Table.Column dataIndex="Name" title="Name" sorter />
-          <Table.Column dataIndex="Description" title="Description" />
-          <Table.Column
-            title="Actions"
-            render={(text, record) => (
-              <div className="actions">
-                <EditButton
-                  hideText={true}
-                  onClick={() => {
-                    handleEditClick(record);
-                    console.log("Edit", record);
-                  }}
-                />
-                <ShowButton
-                  hideText={true}
-                  onClick={() => {
-                    handleDetailClick(record);
-                    console.log("Show", record);
-                  }}
-                />
-              </div>
-            )}
-          />
-        </Table>
-      </div>
-      {detailModalOpen && (
-        <CourseBatchList
-          course={selectedCourse}
-          modalOpen={detailModalOpen}
-          setModalOpen={setDetailModalOpen}
-        ></CourseBatchList>
-      )}
+        <div className="studentDisplay">
+          <Table {...tableProps} rowKey="id">
+            <Table.Column dataIndex="id" title="ID" />
+            <Table.Column dataIndex="Name" title="Name" sorter />
+            <Table.Column dataIndex="Description" title="Description" />
+            <Table.Column
+              title="Actions"
+              render={(text, record) => (
+                <div className="actions">
+                  <EditButton
+                    hideText={true}
+                    onClick={() => {
+                      handleEditClick(record);
+                      console.log("Edit", record);
+                    }}
+                  />
+                  <ShowButton
+                    hideText={true}
+                    onClick={() => {
+                      handleDetailClick(record);
+                      console.log("Show", record);
+                    }}
+                  />
+                </div>
+              )}
+            />
+          </Table>
+        </div>
+        {detailModalOpen && (
+          <CourseBatchList
+            course={selectedCourse}
+            modalOpen={detailModalOpen}
+            setModalOpen={setDetailModalOpen}
+          ></CourseBatchList>
+        )}
 
-      {editModalOpen && (
-        <EditCourse
-          course={selectedCourse}
-          modalOpen={editModalOpen}
-          setModalOpen={setEditModalOpen}
-        />
-      )}
-    </div>
-  );
+        {editModalOpen && (
+          <EditCourse
+            course={selectedCourse}
+            modalOpen={editModalOpen}
+            setModalOpen={setEditModalOpen}
+          />
+        )}
+      </div>
+    );
+  }
+  return <AccessNotFound />;
 }
