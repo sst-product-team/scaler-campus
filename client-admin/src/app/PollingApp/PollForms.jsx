@@ -6,8 +6,7 @@ import { useLocation } from "react-router-dom";
 import useScope from "../../hooks/useScope";
 import AccessNotFound from "../../components/AccessNotFound";
 import { Table } from "antd";
-import { DeleteButton, Show, ShowButton, useTable } from "@refinedev/antd";
-import { toast } from "react-toastify";
+import { DeleteButton, EditButton, Show, ShowButton, useTable } from "@refinedev/antd";
 
 function PollForms() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,6 +43,7 @@ function PollForms() {
     setSelectedPoll(record);
     setDetailModalOpen(true);
   };
+
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -101,13 +101,6 @@ function PollForms() {
               title="Actions"
               render={(text, record) => (
                 <div className="actions">
-                  <DeleteButton
-                    hideText={true}
-                    onClick={() => {
-                      // handleEditClick(record);
-                      console.log("Edit", record);
-                    }}
-                  />
                   <ShowButton
                     hideText={true}
                     onClick={() => {
