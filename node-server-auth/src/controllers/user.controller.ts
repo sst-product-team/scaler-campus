@@ -62,6 +62,9 @@ class UserController {
 
     // generate a secure password
     const pass = await this.passwordGenerator.generateSecurePassword(15);
+    console.log("====================================");
+    console.log(pass);
+    console.log("====================================");
 
     // hash the password
     const hashedPassword = this.passwordGenerator.hashPassword(pass);

@@ -1,15 +1,32 @@
-// UserContext.js
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
-// Create the context
 export const UserContext = createContext();
 
-// Create a provider component
+const getCookie = (name) => {
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? decodeURIComponent(match[2]) : null;
+};
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     username: "anonymous",
-    scope: ["/app-code"],
+    email: null,
+    scope: [],
   });
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    const storedEmail = localStorage.getItem("email");
+    const storedScope = localStorage.getItem("scope");
+
+    if (storedUsername || storedEmail) {
+      setUser({
+        username: storedUsername || "anonymous",
+        email: storedEmail || null,
+        scope: storedScope ? localStorage.getItem("scope").split(",") : [],
+      });
+    }
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

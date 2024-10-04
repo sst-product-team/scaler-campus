@@ -1,1 +1,1 @@
-export {default} from './QueryConsole';
+export { default } from "./StudentForms";
