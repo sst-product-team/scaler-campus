@@ -21,6 +21,7 @@ const CreatePoll = ({ modalOpen, setModalOpen }) => {
       const pollData = {
         question: values.question,
         options: validOptions,
+        acceptingResponses: true
       };
 
       const response = await axios.post(

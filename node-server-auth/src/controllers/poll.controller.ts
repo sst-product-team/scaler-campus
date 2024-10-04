@@ -18,6 +18,14 @@ class PollController {
     return optionT;
   }
 
+  async getAllPolls(req: Request, res: Response) {
+    const response = await PollModel.find();
+    if (!response) {
+      return res.status(400).json({ message: "No polls were found" });
+    }
+    return res.status(200).json(response);
+  }
+
   async createPoll(req: Request, res: Response) {
     const { question } = req.body;
     if (!question) {
@@ -27,10 +35,14 @@ class PollController {
     const { acceptingResponses } = req.body;
     delete req.body.acceptingResponses;
 
-    let options: string[] = Object.values(req.body);
+    const {options} = req.body;
     if (!options) {
       return res.status(400).json({ message: "Options are required" });
     }
+
+    console.log('====================================');
+    console.log(options);
+    console.log('====================================');
 
     const OptionT: OptionType = this.getOptionType(options);
 
@@ -57,12 +69,12 @@ class PollController {
   }
 
   async voteOnPoll(req: Request, res: Response) {
-    const { pollId, option } = req.body;
+    const { pollId } = req.params;
 
-    if (!pollId || !option) {
+    if (!pollId) {
       return res
         .status(400)
-        .json({ message: "Poll ID and option are required" });
+        .json({ message: "Poll ID is required" });
     }
 
     try {
@@ -81,6 +93,8 @@ class PollController {
 
       // TODO: validate user
 
+      console.log(poll.toObject().options);
+      
       console.log(poll.toObject().options[option]);
 
       if (poll.toObject().options[option] == undefined) {
@@ -92,8 +106,8 @@ class PollController {
       await PollModel.updateOne(
         { _id: pollId },
         {
-          $set: {
-            [`options.${option}`]: (poll.options[option] || []).push(user),
+          $push: {
+            [`options.${option}`]: user,
           },
         }
       );
