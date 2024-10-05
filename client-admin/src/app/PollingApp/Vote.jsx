@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ScalerCampusBanner from "../../components/ScalerCampusBanner";
 
@@ -10,7 +10,7 @@ export default function Vote() {
     options: ["Option 1", "Option 2", "Option 3", "Option 4"],
     acceptingResponses: true,
   });
-  const [selectedOption, setSelectedOption] = useState(null); // State for selected option
+  const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
     const fetchPollData = async () => {
@@ -32,7 +32,7 @@ export default function Vote() {
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
-    console.log(`Selected option: ${option}`); // Log the selected option
+    console.log(`Selected option: ${option}`);
   };
 
   return (

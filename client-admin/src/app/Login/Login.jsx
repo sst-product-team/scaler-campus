@@ -1,6 +1,6 @@
 import { axiosInstance } from "@refinedev/simple-rest";
 
-export default function Login() {
+export default function Login({ requiredRole }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -12,7 +12,11 @@ export default function Login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password, requiredRole: "TEACHER" }),
+      body: JSON.stringify({
+        email,
+        password,
+        requiredRole: requiredRole || "TEACHER",
+      }),
     })
       .then((res) => {
         return res.json();
