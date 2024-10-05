@@ -35,14 +35,14 @@ class PollController {
     const { acceptingResponses } = req.body;
     delete req.body.acceptingResponses;
 
-    const {options} = req.body;
+    const { options } = req.body;
     if (!options) {
       return res.status(400).json({ message: "Options are required" });
     }
 
-    console.log('====================================');
+    console.log("====================================");
     console.log(options);
-    console.log('====================================');
+    console.log("====================================");
 
     const OptionT: OptionType = this.getOptionType(options);
 
@@ -72,9 +72,7 @@ class PollController {
     const { pollId } = req.params;
 
     if (!pollId) {
-      return res
-        .status(400)
-        .json({ message: "Poll ID is required" });
+      return res.status(400).json({ message: "Poll ID is required" });
     }
 
     try {
@@ -94,13 +92,29 @@ class PollController {
       // TODO: validate user
 
       console.log(poll.toObject().options);
-      
+
       console.log(poll.toObject().options[option]);
 
       if (poll.toObject().options[option] == undefined) {
         return res
           .status(400)
           .json({ message: `Option "${option}" does not exist in this poll` });
+      }
+
+      const userVoted = poll.toObject().options[option].includes(user);
+      if (userVoted) {
+        return res.status(400).json({
+          message: `User "${user}" has already voted for "${option}"`,
+        });
+      }
+
+      // check with other options
+      for (let [key, value] of Object.entries(poll.toObject().options)) {
+        if (value.includes(user)) {
+          return res.status(400).json({
+            message: `User "${user}" has already voted for "${key}"`,
+          });
+        }
       }
 
       await PollModel.updateOne(

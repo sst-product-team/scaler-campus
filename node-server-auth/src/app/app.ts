@@ -18,6 +18,7 @@ class App {
     connectToDB();
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.urlencoded({ extended: false }));
 
     new RoutesRegister(this.app);
